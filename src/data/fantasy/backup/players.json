@@ -1,0 +1,529 @@
+{
+  "Rubix2612": {
+    "playerName": "Rubix2612",
+    "team": "DJ",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.625,
+    "winShares": 1.667,
+    "netWinPercentage": 0,
+    "totalPoints": 1971,
+    "average": 123.2,
+    "division": 11,
+    "status": "drafted",
+    "owner": "556233034261594114",
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1971
+      }
+    ]
+  },
+  "leitossb": {
+    "playerName": "leitossb",
+    "team": "FE",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 1,
+    "winShares": 2,
+    "netWinPercentage": 0.125,
+    "totalPoints": 1418,
+    "average": 118.2,
+    "division": 11,
+    "status": "drafted",
+    "owner": "1029394754791809105",
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1418
+      }
+    ]
+  },
+  "Manu": {
+    "playerName": "Manu",
+    "team": "DMG",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 1,
+    "winShares": 1,
+    "netWinPercentage": 0,
+    "totalPoints": 1416,
+    "average": 118,
+    "division": 11,
+    "status": "free",
+    "owner": null,
+    "value": 169,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1416
+      }
+    ],
+    "clause": 338,
+    "transferHistory": [
+      {
+        "week": 1,
+        "from": "556233034261594114",
+        "to": "1029394754791809105"
+      },
+      {
+        "week": 1,
+        "from": "556233034261594114",
+        "to": "1029394754791809105",
+        "price": 322
+      }
+    ]
+  },
+  "Jahim": {
+    "playerName": "Jahim | TEEXZIE | JOKER",
+    "team": "Cf",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.625,
+    "winShares": 1.667,
+    "netWinPercentage": 0,
+    "totalPoints": 1832,
+    "average": 113.9,
+    "division": 11,
+    "status": "drafted",
+    "owner": "1029394754791809105",
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1832
+      }
+    ]
+  },
+  "Deriva": {
+    "playerName": "Deriva",
+    "team": "",
+    "warsPlayed": 16,
+    "warsPossible": 0,
+    "winPercentage": 0.625,
+    "winShares": 1.667,
+    "netWinPercentage": 0,
+    "totalPoints": 1792,
+    "average": 112,
+    "division": 11,
+    "status": "drafted",
+    "owner": "556233034261594114",
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1792
+      }
+    ]
+  },
+  "Pein36": {
+    "playerName": "Pein36",
+    "team": "Cf",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.625,
+    "winShares": 1.667,
+    "netWinPercentage": 0,
+    "totalPoints": 1854,
+    "average": 109.6,
+    "division": 11,
+    "status": "drafted",
+    "owner": "1029394754791809105",
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1754
+      }
+    ],
+    "value": null,
+    "clause": null
+  },
+  "BennyHaTM": {
+    "playerName": "BennyHaTM",
+    "team": "KWI",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.438,
+    "winShares": 0.833,
+    "netWinPercentage": 0,
+    "totalPoints": 1712,
+    "average": 107,
+    "division": 11,
+    "status": "drafted",
+    "owner": "1029394754791809105",
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1712
+      }
+    ],
+    "value": null,
+    "clause": null
+  },
+  "mio_mio_mio": {
+    "playerName": "mio_mio_mio",
+    "team": "AV> ",
+    "warsPlayed": 13,
+    "warsPossible": 16,
+    "winPercentage": 0.385,
+    "winShares": 0.833,
+    "netWinPercentage": -0.045,
+    "totalPoints": 1744,
+    "average": 105.8,
+    "division": 11,
+    "status": "drafted",
+    "owner": "1029394754791809105",
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1644
+      }
+    ]
+  },
+  "ryg": {
+    "playerName": "ryg",
+    "team": "V>",
+    "warsPlayed": 13,
+    "warsPossible": 16,
+    "winPercentage": 0.385,
+    "winShares": 0.833,
+    "netWinPercentage": 0.072,
+    "totalPoints": 1372,
+    "average": 105.5,
+    "division": 11,
+    "status": "drafted",
+    "owner": "556233034261594114",
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1372
+      }
+    ],
+    "value": null,
+    "clause": null
+  },
+  "Dark": {
+    "playerName": "Dark",
+    "team": "",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.688,
+    "winShares": 1.833,
+    "netWinPercentage": 0,
+    "totalPoints": 1765,
+    "average": 104.1,
+    "division": 11,
+    "status": "drafted",
+    "owner": "556233034261594114",
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1665
+      }
+    ],
+    "value": null,
+    "clause": null
+  },
+  "Matias": {
+    "playerName": "Matias",
+    "team": "DMG",
+    "warsPlayed": 9,
+    "warsPossible": 16,
+    "winPercentage": 0.444,
+    "winShares": 0.667,
+    "netWinPercentage": -0.044,
+    "totalPoints": 933,
+    "average": 103.7,
+    "division": 11,
+    "status": "drafted",
+    "owner": "556233034261594114",
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 933
+      }
+    ]
+  },
+  "kraken8192": {
+    "playerName": "kraken8192",
+    "team": "AX",
+    "warsPlayed": 14,
+    "warsPossible": 16,
+    "winPercentage": 0.688,
+    "winShares": 1.667,
+    "netWinPercentage": 0,
+    "totalPoints": 1893,
+    "average": 103.1,
+    "division": 11,
+    "status": "drafted",
+    "owner": "1029394754791809105",
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1443
+      }
+    ]
+  },
+  "Nicolachaume": {
+    "playerName": "Nicolachaume",
+    "team": "Dβ",
+    "warsPlayed": 14,
+    "warsPossible": 16,
+    "winPercentage": 0.143,
+    "winShares": 0.333,
+    "netWinPercentage": -0.107,
+    "totalPoints": 1441,
+    "average": 102.9,
+    "division": 11,
+    "status": "free",
+    "owner": null,
+    "value": 129,
+    "clause": 258,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1441
+      }
+    ]
+  },
+  "Malingre": {
+    "playerName": "Malingre",
+    "team": "FE",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.917,
+    "winShares": 2.333,
+    "netWinPercentage": 0.042,
+    "totalPoints": 1422,
+    "average": 101.4,
+    "division": 11,
+    "status": "free",
+    "owner": null,
+    "value": 127,
+    "clause": 254,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1422
+      }
+    ]
+  },
+  "Black Asta": {
+    "playerName": "Black Asta",
+    "team": "RK",
+    "warsPlayed": 15,
+    "warsPossible": 16,
+    "winPercentage": 0.933,
+    "winShares": 2.667,
+    "netWinPercentage": 0.042,
+    "totalPoints": 1503,
+    "average": 100.2,
+    "division": 11,
+    "status": "free",
+    "owner": null,
+    "value": 125,
+    "clause": 250,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1503
+      }
+    ]
+  },
+  "Juno": {
+    "playerName": "Juno",
+    "team": "ЯΛ",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.154,
+    "winShares": 0.333,
+    "netWinPercentage": 0.021,
+    "totalPoints": 1301,
+    "average": 100.1,
+    "division": 11,
+    "status": "free",
+    "owner": null,
+    "value": 125,
+    "clause": 250,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1301
+      }
+    ]
+  },
+  "Fosyy": {
+    "playerName": "Fosyy",
+    "team": "RX",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.688,
+    "winShares": 1.833,
+    "netWinPercentage": 0.02,
+    "totalPoints": 1519,
+    "average": 99.9,
+    "division": 11,
+    "status": "free",
+    "owner": null,
+    "value": 125,
+    "clause": 250,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1519
+      }
+    ]
+  },
+  "Phenyyx": {
+    "playerName": "Phenyyx",
+    "team": "Cf",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.625,
+    "winShares": 1.667,
+    "netWinPercentage": 0.013,
+    "totalPoints": 1598,
+    "average": 99.9,
+    "division": 11,
+    "status": "free",
+    "owner": null,
+    "value": 125,
+    "clause": 250,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1598
+      }
+    ]
+  },
+  "nanoxmarin": {
+    "playerName": "nanoxmarin",
+    "team": "IW",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.2,
+    "winShares": 0.5,
+    "netWinPercentage": 0.01,
+    "totalPoints": 1451,
+    "average": 96.7,
+    "division": 11,
+    "status": "free",
+    "owner": null,
+    "value": 121,
+    "clause": 242,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1451
+      }
+    ]
+  },
+  "alexpro": {
+    "playerName": "alexpro",
+    "team": "DJ",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.625,
+    "winShares": 1.667,
+    "netWinPercentage": 0,
+    "totalPoints": 1526,
+    "average": 95.4,
+    "division": 11,
+    "status": "drafted",
+    "owner": "1029394754791809105",
+    "value": 119,
+    "clause": 238,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1526
+      }
+    ]
+  },
+  "Jamal": {
+    "playerName": "Jamal",
+    "team": "RK",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.929,
+    "winShares": 2.167,
+    "netWinPercentage": 0.241,
+    "totalPoints": 1332,
+    "average": 95.1,
+    "division": 11,
+    "status": "drafted",
+    "owner": "556233034261594114",
+    "value": 119,
+    "clause": 238,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1332
+      }
+    ]
+  },
+  "Misaijumii": {
+    "playerName": "Misaijumii",
+    "team": "RK",
+    "warsPlayed": 16,
+    "warsPossible": 16,
+    "winPercentage": 0.935,
+    "winShares": 2.417,
+    "netWinPercentage": 0.248,
+    "totalPoints": 1450,
+    "average": 95.5,
+    "division": 11,
+    "status": "free",
+    "owner": null,
+    "value": 119,
+    "clause": 238,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1450
+      }
+    ]
+  },
+  "CaptainOblivious": {
+    "playerName": "CaptainOblivious",
+    "team": "KWI",
+    "warsPlayed": 15,
+    "warsPossible": 16,
+    "winPercentage": 0.5,
+    "winShares": 1.667,
+    "netWinPercentage": 0.063,
+    "totalPoints": 925,
+    "average": 92.5,
+    "division": 11,
+    "status": "free",
+    "owner": null,
+    "value": 116,
+    "clause": 232,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 925
+      }
+    ]
+  },
+  "ontX": {
+    "playerName": "ontX",
+    "team": "RK",
+    "warsPlayed": 15,
+    "warsPossible": 16,
+    "winPercentage": 0.667,
+    "winShares": 1.667,
+    "netWinPercentage": -0.021,
+    "totalPoints": 1373,
+    "average": 91.5,
+    "division": 11,
+    "status": "drafted",
+    "owner": "556233034261594114",
+    "value": 114,
+    "clause": 228,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 1373
+      }
+    ]
+  }
+}

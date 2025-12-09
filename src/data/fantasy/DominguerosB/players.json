@@ -1,0 +1,98 @@
+{
+  "ontX": {
+    "playerName": "ontX",
+    "team": "RK",
+    "totalPoints": 0,
+    "average": 0,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 0
+      }
+    ],
+    "owner": "1029394754791809105",
+    "status": "drafted",
+    "value": 120,
+    "clause": 240
+  },
+  "leitossb": {
+    "playerName": "leitossb",
+    "team": "FE",
+    "totalPoints": 300,
+    "average": 0,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 0
+      }
+    ],
+    "owner": "1029394754791809105",
+    "status": "drafted",
+    "value": 120,
+    "clause": 240
+  },
+  "alexpro": {
+    "playerName": "alexpro",
+    "team": "DJ",
+    "totalPoints": 0,
+    "average": 0,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 0
+      }
+    ],
+    "owner": "1029394754791809105",
+    "status": "drafted",
+    "value": 120,
+    "clause": 240
+  },
+  "Pein36": {
+    "playerName": "Pein36",
+    "team": "Cf",
+    "totalPoints": 0,
+    "average": 0,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 0
+      }
+    ],
+    "owner": "1029394754791809105",
+    "status": "drafted",
+    "value": 120,
+    "clause": 240
+  },
+  "BennyHaTM": {
+    "playerName": "BennyHaTM",
+    "team": "KWI",
+    "totalPoints": 0,
+    "average": 0,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 0
+      }
+    ],
+    "owner": "1029394754791809105",
+    "status": "drafted",
+    "value": 120,
+    "clause": 240
+  },
+  "Rubix2612": {
+    "playerName": "Rubix2612",
+    "team": "DJ",
+    "totalPoints": 0,
+    "average": 0,
+    "history": [
+      {
+        "week": 0,
+        "totalPoints": 0
+      }
+    ],
+    "owner": "1029394754791809105",
+    "status": "drafted",
+    "value": 120,
+    "clause": 240
+  }
+}

@@ -1,0 +1,923 @@
+{
+  "yoshira": {
+    "playerName": "yoshira",
+    "team": "Let Him Cook",
+    "tag": "COOK",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 95.1,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "yezy": {
+    "playerName": "yezy",
+    "team": "Let Him Cook",
+    "tag": "COOK",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 87.4,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "AyyJayy": {
+    "playerName": "AyyJayy",
+    "team": "Let Him Cook",
+    "tag": "COOK",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 85.3,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Mirymeg": {
+    "playerName": "Mirymeg",
+    "team": "Let Him Cook",
+    "tag": "COOK",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 82.0,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "gyrodos": {
+    "playerName": "gyrodos",
+    "team": "Let Him Cook",
+    "tag": "COOK",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 80.0,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Slick": {
+    "playerName": "Slick",
+    "team": "Let Him Cook",
+    "tag": "COOK",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 64.1,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "CanosoJr": {
+    "playerName": "CanosoJr",
+    "team": "Arcadia Sky",
+    "tag": "ARC",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 92.2,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "rey": {
+    "playerName": "rey",
+    "team": "Arcadia Sky",
+    "tag": "ARC",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 87.4,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Arti": {
+    "playerName": "Arti",
+    "team": "Arcadia Sky",
+    "tag": "ARC",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 87.4,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Nick": {
+    "playerName": "Nick",
+    "team": "Arcadia Sky",
+    "tag": "ARC",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 83.3,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Ace Tman": {
+    "playerName": "Ace Tman",
+    "team": "Arcadia Sky",
+    "tag": "ARC",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 79.9,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Brandon": {
+    "playerName": "Brandon",
+    "team": "Arcadia Sky",
+    "tag": "ARC",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 75.6,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Teeples": {
+    "playerName": "Teeples",
+    "team": "Arcadia Sky",
+    "tag": "ARC",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 72.2,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+
+  "JPGiviner": {
+    "playerName": "JPGiviner",
+    "team": "Severance",
+    "tag": "svξ",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 94.3,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Starlow": {
+    "playerName": "Starlow",
+    "team": "Severance",
+    "tag": "svξ",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 92.5,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Tyler": {
+    "playerName": "Tyler",
+    "team": "Severance",
+    "tag": "svξ",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 86.9,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "rubified": {
+    "playerName": "rubified",
+    "team": "Severance",
+    "tag": "svξ",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 85.3,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "sopt": {
+    "playerName": "sopt",
+    "team": "Severance",
+    "tag": "svξ",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 80.0,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Soldier": {
+    "playerName": "Soldier",
+    "team": "Severance",
+    "tag": "svξ",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 80.3,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "green": {
+    "playerName": "green",
+    "team": "Severance",
+    "tag": "svξ",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 80.1,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "JOJO www": {
+    "playerName": "JOJO www",
+    "team": "Hanout",
+    "tag": "ras",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 93.4,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "zPopoff": {
+    "playerName": "zPopoff",
+    "team": "Hanout",
+    "tag": "ras",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 87.2,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "ectross": {
+    "playerName": "ectross",
+    "team": "Hanout",
+    "tag": "ras",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 85.6,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "starxlx": {
+    "playerName": "starxlx",
+    "team": "Hanout",
+    "tag": "ras",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 81.5,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "MaaRio": {
+    "playerName": "MaaRio",
+    "team": "Hanout",
+    "tag": "ras",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 81.1,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Aleformula": {
+    "playerName": "Aleformula",
+    "team": "Hanout",
+    "tag": "ras",
+    "division": "1",
+    "totalPoints": 0,
+    "average": 80.8,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "sliced oxy": {
+    "playerName": "sliced oxy",
+    "team": "Buz My Team My Kingdom",
+    "tag": "BUZ",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 101.0,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "Bape": {
+    "playerName": "Bape",
+    "team": "Buz My Team My Kingdom",
+    "tag": "BUZ",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 89.9,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "q.": {
+    "playerName": "q.",
+    "team": "Buz My Team My Kingdom",
+    "tag": "BUZ",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 86.7,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "Holl0w": {
+    "playerName": "Holl0w",
+    "team": "Buz My Team My Kingdom",
+    "tag": "BUZ",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 84.7,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "Gold": {
+    "playerName": "Gold",
+    "team": "Buz My Team My Kingdom",
+    "tag": "BUZ",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 82.4,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "SKar": {
+    "playerName": "SKar",
+    "team": "Buz My Team My Kingdom",
+    "tag": "BUZ",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 80.3,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "Wawzyzz": {
+    "playerName": "Wawzyzz",
+    "team": "Ronrons",
+    "tag": "RR",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 96.7,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "OsDras": {
+    "playerName": "OsDras",
+    "team": "Ronrons",
+    "tag": "RR",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 93.4,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "Kizū": {
+    "playerName": "Kizū",
+    "team": "Ronrons",
+    "tag": "RR",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 85.9,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "Pizzi": {
+    "playerName": "Pizzi",
+    "team": "Ronrons",
+    "tag": "RR",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 86.0,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "Stone": {
+    "playerName": "Stone",
+    "team": "Ronrons",
+    "tag": "RR",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 78.7,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "Suprey": {
+    "playerName": "Suprey",
+    "team": "Ronrons",
+    "tag": "RR",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 72.6,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "Dexter Morgan": {
+    "playerName": "Dexter Morgan",
+    "team": "Ronrons",
+    "tag": "RR",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 74.9,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "kunder_on": {
+    "playerName": "kunder_on",
+    "team": "Ronrons",
+    "tag": "RR",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 63.8,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "JuliusM": {
+    "playerName": "JuliusM",
+    "team": "Ronrons",
+    "tag": "RR",
+    "division": "2",
+    "totalPoints": 0,
+    "average": 75.0,
+    "history": [{ "week": 0, "totalPoints": 0 }]
+  },
+  "Crash Bootycoot": {
+    "playerName": "Crash Bootycoot",
+    "team": "GV Mario Kart Team",
+    "tag": "GV",
+    "division": 2,
+    "totalPoints": 0,
+    "average": 101.5,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Roberto": {
+    "playerName": "Roberto",
+    "team": "GV Mario Kart Team",
+    "tag": "GV",
+    "division": 2,
+    "totalPoints": 0,
+    "average": 99.7,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "myles": {
+    "playerName": "myles",
+    "team": "GV Mario Kart Team",
+    "tag": "GV",
+    "division": 2,
+    "totalPoints": 0,
+    "average": 92.4,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Cam Reddish": {
+    "playerName": "Cam Reddish",
+    "team": "GV Mario Kart Team",
+    "tag": "GV",
+    "division": 2,
+    "totalPoints": 0,
+    "average": 88.6,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Pxnda": {
+    "playerName": "Pxnda",
+    "team": "GV Mario Kart Team",
+    "tag": "GV",
+    "division": 2,
+    "totalPoints": 0,
+    "average": 75.5,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "Matt": {
+    "playerName": "Matt",
+    "team": "GV Mario Kart Team",
+    "tag": "GV",
+    "division": 2,
+    "totalPoints": 0,
+    "average": 68.9,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "synic": {
+    "playerName": "synic",
+    "team": "GV Mario Kart Team",
+    "tag": "GV",
+    "division": 2,
+    "totalPoints": 0,
+    "average": 66.7,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "macy": {
+    "playerName": "macy",
+    "team": "GV Mario Kart Team",
+    "tag": "GV",
+    "division": 2,
+    "totalPoints": 0,
+    "average": 64.1,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  "LilNickf6": {
+    "playerName": "LilNickf6",
+    "team": "GV Mario Kart Team",
+    "tag": "GV",
+    "division": 2,
+    "totalPoints": 0,
+    "average": 61.5,
+    "history": [
+      { "week": 0, "totalPoints": 0 }
+    ]
+  },
+  
+    "Matedy89": {
+      "playerName": "Matedy89",
+      "team": "Jet Jockey Factory",
+      "tag": "JJ",
+      "division": 2,
+      "totalPoints": 0,
+      "average": 95.5,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Aleek": {
+      "playerName": "Aleek",
+      "team": "Jet Jockey Factory",
+      "tag": "JJ",
+      "division": 2,
+      "totalPoints": 0,
+      "average": 91.5,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "PabloGKR": {
+      "playerName": "PabloGKR",
+      "team": "Jet Jockey Factory",
+      "tag": "JJ",
+      "division": 2,
+      "totalPoints": 0,
+      "average": 90.5,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Aleeex": {
+      "playerName": "Aleeex",
+      "team": "Jet Jockey Factory",
+      "tag": "JJ",
+      "division": 2,
+      "totalPoints": 0,
+      "average": 82.1,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Yiyo": {
+      "playerName": "Yiyo",
+      "team": "Jet Jockey Factory",
+      "tag": "JJ",
+      "division": 2,
+      "totalPoints": 0,
+      "average": 78.7,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Wolfeet": {
+      "playerName": "Wolfeet",
+      "team": "Jet Jockey Factory",
+      "tag": "JJ",
+      "division": 2,
+      "totalPoints": 0,
+      "average": 72.4,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "BYZ": {
+      "playerName": "BYZ",
+      "team": "Jet Jockey Factory",
+      "tag": "JJ",
+      "division": 2,
+      "totalPoints": 0,
+      "average": 87.2,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "seral": {
+      "playerName": "seral",
+      "team": "Jet Jockey Factory",
+      "tag": "JJ",
+      "division": 2,
+      "totalPoints": 0,
+      "average": 80.3,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "iLyoniix": {
+      "playerName": "iLyoniix",
+      "team": "Jet Jockey Factory",
+      "tag": "JJ",
+      "division": 2,
+      "totalPoints": 0,
+      "average": 71.6,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "k1rps": {
+      "playerName": "k1rps",
+      "team": "Jet Jockey Factory",
+      "tag": "JJ",
+      "division": 2,
+      "totalPoints": 0,
+      "average": 67,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "leitossb": {
+      "playerName": "leitossb",
+      "team": "Final Emblem Sheraphim",
+      "tag": "FE",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 118.2,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Malingre": {
+      "playerName": "Malingre",
+      "team": "Final Emblem Sheraphim",
+      "tag": "FE",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 102.1,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Zarkal": {
+      "playerName": "Zarkal",
+      "team": "Final Emblem Sheraphim",
+      "tag": "FE",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 91.0,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "H.Furbi": {
+      "playerName": "H.Furbi",
+      "team": "Final Emblem Sheraphim",
+      "tag": "FE",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 94.0,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Valera": {
+      "playerName": "Valera",
+      "team": "Final Emblem Sheraphim",
+      "tag": "FE",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 87.9,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Ever": {
+      "playerName": "Ever",
+      "team": "Final Emblem Sheraphim",
+      "tag": "FE",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 87.7,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Chech": {
+      "playerName": "Chech",
+      "team": "Final Emblem Sheraphim",
+      "tag": "FE",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 82.9,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Mitxo": {
+      "playerName": "Mitxo",
+      "team": "Final Emblem Sheraphim",
+      "tag": "FE",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 69.0,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Avedn": {
+      "playerName": "Avedn",
+      "team": "Chill Family",
+      "tag": "CF",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 71.7,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Louloutre": {
+      "playerName": "Louloutre",
+      "team": "Chill Family",
+      "tag": "CF",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 55.3,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Choupinette": {
+      "playerName": "Choupinette",
+      "team": "Chill Family",
+      "tag": "CF",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 50.9,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Jahim": {
+      "playerName": "Jahim｜TEEZKIE｜JOKER",
+      "team": "Chill Family",
+      "tag": "CF",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 113.9,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Pein36": {
+      "playerName": "Pein36",
+      "team": "Chill Family",
+      "tag": "CF",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 109.6,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Phenyxx": {
+      "playerName": "Phenyxx",
+      "team": "Chill Family",
+      "tag": "CF",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 99.9,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Black Asta": {
+      "playerName": "Black Asta",
+      "team": "Rozando la Katastrofe 8",
+      "tag": "RK8",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 100.2,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Jamal": {
+      "playerName": "Jamal",
+      "team": "Rozando la Katastrofe 8",
+      "tag": "RK8",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 93.5,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Misajumii": {
+      "playerName": "Misajumii",
+      "team": "Rozando la Katastrofe 8",
+      "tag": "RK8",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 95.3,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Naadal": {
+      "playerName": "Naadal",
+      "team": "Rozando la Katastrofe 8",
+      "tag": "RK8",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 82.7,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Pablo236": {
+      "playerName": "Pablo236",
+      "team": "Rozando la Katastrofe 8",
+      "tag": "RK8",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 119.2,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Purruichi": {
+      "playerName": "Purruichi",
+      "team": "Rozando la Katastrofe 8",
+      "tag": "RK8",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 90.8,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "Ryokku": {
+      "playerName": "Ryokku",
+      "team": "Rozando la Katastrofe 8",
+      "tag": "RK8",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 61.8,
+      "history": [
+        { "week": 0, "totalPoints": 0 }
+      ]
+    },
+    "AciiD": {
+      "playerName": "AciiD",
+      "team": "Rozando la Katastrofe 7",
+      "tag": "RK7",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 90.4,
+      "history": [{ "week": 0, "totalPoints": 0 }]
+    },
+    "Dark": {
+      "playerName": "Dark",
+      "team": "Rozando la Katastrofe 7",
+      "tag": "RK7",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 104.1,
+      "history": [{ "week": 0, "totalPoints": 0 }]
+    },
+    "Fosyy": {
+      "playerName": "Fosyy",
+      "team": "Rozando la Katastrofe 7",
+      "tag": "RK7",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 99.9,
+      "history": [{ "week": 0, "totalPoints": 0 }]
+    },
+    "Giovannisland24": {
+      "playerName": "Giovannisland24",
+      "team": "Rozando la Katastrofe 7",
+      "tag": "RK7",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 73.1,
+      "history": [{ "week": 0, "totalPoints": 0 }]
+    },
+    "on1x": {
+      "playerName": "on1x",
+      "team": "Rozando la Katastrofe 7",
+      "tag": "RK7",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 91.5,
+      "history": [{ "week": 0, "totalPoints": 0 }]
+    },
+    "Pollo": {
+      "playerName": "Pollo",
+      "team": "Rozando la Katastrofe 7",
+      "tag": "RK7",
+      "division": "11",
+      "totalPoints": 0,
+      "average": 83.4,
+      "history": [{ "week": 0, "totalPoints": 0 }]
+    }
+  }
+  
+  
+  
+
