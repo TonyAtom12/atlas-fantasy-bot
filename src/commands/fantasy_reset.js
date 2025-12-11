@@ -6,7 +6,6 @@ const {
 const fs = require("fs");
 const path = require("path");
 
-// Detectar liga por canal
 function getLeagueFromChannel(name) {
   const n = name.toLowerCase();
   if (n.includes("fantasy-dmg-a")) return "DominguerosA";
@@ -14,7 +13,6 @@ function getLeagueFromChannel(name) {
   return null;
 }
 
-// Paths por liga
 function leagueFiles(league) {
   const base = path.join(__dirname, "..", "data", "fantasy", league);
   return {
@@ -23,14 +21,14 @@ function leagueFiles(league) {
     scoresPath:   path.join(base, "scores.json"),
     marketPath:   path.join(base, "market.json"),
     tradesPath:   path.join(base, "trades.json"),
-    playersPath:  path.join(base, "players.json") // ESTA VEZ SÍ se resetea
+    playersPath:  path.join(base, "players.json")
   };
 }
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("fantasy_reset")
-    .setDescription("🔥 Resetear liga al completo, incluidos jugadores")
+    .setDescription("🔥 Reset total de liga + reset de estadísticas globales")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
   async execute(interaction) {
@@ -45,42 +43,54 @@ module.exports = {
     const { managersPath, lineupsPath, scoresPath, marketPath, tradesPath, playersPath } =
       leagueFiles(league);
 
-    // --- RESET COMPLETO ---
+    const globalPlayersPath = path.join(__dirname, "..", "data", "fantasy", "players.json");
+
+    // Reset managers, lineups, scores, market, trades
     fs.writeFileSync(managersPath, JSON.stringify({}, null, 2));
+    fs.writeFileSync(lineupsPath, JSON.stringify({ lineups: {}, currentWeek: 1 }, null, 2));
+    fs.writeFileSync(
+      scoresPath,
+      JSON.stringify(
+        {
+          weeks: {},
+          diff: {},
+          details: {},
+          totalPoints: {}
+        },
+        null,
+        2
+      )
+    );
+        fs.writeFileSync(marketPath, JSON.stringify({ week: 1, playersOnAuction: [] }, null, 2));
+    fs.writeFileSync(tradesPath, JSON.stringify({ offers: [] }, null, 2));
 
-    fs.writeFileSync(lineupsPath, JSON.stringify({
-      lineups: {},
-      currentWeek: 1
-    }, null, 2));
-
-    fs.writeFileSync(scoresPath, JSON.stringify({
-      weeks: {},
-      totalPoints: {}
-    }, null, 2));
-
-    fs.writeFileSync(marketPath, JSON.stringify({
-      week: 1,
-      playersOnAuction: []
-    }, null, 2));
-
-    fs.writeFileSync(tradesPath, JSON.stringify({
-      offers: []
-    }, null, 2));
-
-    // 🔥 RESET REAL DE JUGADORES EN LA LIGA
-    // Esto hace que los jugadores se clonen del globalPlayers.json cuando se use /joinfantasy
+    // Reset jugadores de liga
     fs.writeFileSync(playersPath, JSON.stringify({}, null, 2));
+
+    // Reset estadística global
+    if (fs.existsSync(globalPlayersPath)) {
+      const globalPlayers = JSON.parse(fs.readFileSync(globalPlayersPath));
+
+      for (const p of Object.values(globalPlayers)) {
+        p.totalPoints = 0;
+        p.history = [
+          { week: 0, totalPoints: 0 }
+        ];
+      }
+
+      fs.writeFileSync(globalPlayersPath, JSON.stringify(globalPlayers, null, 2));
+    }
 
     const embed = new EmbedBuilder()
       .setColor(0xff2222)
-      .setTitle("🔥 FANTASY RESET COMPLETO")
+      .setTitle("🔥 RESET GLOBAL + LIGA COMPLETO")
       .addFields(
-        { name: "Liga", value: `**${league}**`, inline: true },
-        { name: "Jugadores", value: "🔄 Reiniciados a 0", inline: true },
-        { name: "Managers - Puntos - Mercado - Trades", value: "🧹 Todo limpio" }
+        { name: "Liga", value: league },
+        { name: "Jugadores Globales", value: "🔄 totalPoints reseteados + semana 0" },
+        { name: "Datos Liga", value: "🧹 managers, puntuaciones, mercado y plantillas limpiados" }
       )
-      .setFooter({ text: "La liga está lista para una nueva temporada 🏁" });
+      .setFooter({ text: "Todo listo para comenzar desde cero 🏁" });
 
-    return interaction.reply({ embeds: [embed], ephemeral: false });
+    return interaction.reply({ embeds: [embed] });
   }
 };

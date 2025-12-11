@@ -39,10 +39,33 @@ module.exports = {
       return interaction.reply("📭 No hay jugadores en subasta en este momento.");
     }
 
+    // ==========================================
+    // Cargar players.json global para info extra
+    // ==========================================
+    const globalPlayersPath = path.join(__dirname, "..", "data", "fantasy", "players.json");
+    const globalPlayers = JSON.parse(fs.readFileSync(globalPlayersPath));
+
+    // ==========================================
+    // Construir listado detallado
+    // ==========================================
+    const lines = playersOnAuction.map(pName => {
+      const p = globalPlayers[pName];
+
+      if (!p) {
+        return `• **${pName}** — ⚠ No encontrado en players.json`;
+      }
+
+      const div = p.division ?? "?";
+      const team = p.team ?? "Sin equipo";
+      const tag = p.tag ?? "";
+
+      return `• **${p.playerName}** — [${team} · ${tag}] (Div ${div})`;
+    });
+
     const embed = new EmbedBuilder()
       .setColor(0xffd000)
       .setTitle(`🛒 Mercado — ${league} — Semana ${market.week ?? 1}`)
-      .setDescription(playersOnAuction.map(p => `• **${p}**`).join("\n"))
+      .setDescription(lines.join("\n"))
       .setFooter({ text: "¡A pujar de forma secreta 😎!" });
 
     return interaction.reply({ embeds: [embed] });

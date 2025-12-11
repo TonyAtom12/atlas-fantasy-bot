@@ -1,28 +1,15 @@
 {
-  "lineups": {
-    "1029394754791809105": {
-      "week": 1,
-      "starters": [
-        "BennyHaTM",
-        "Pein36",
-        "alexpro",
-        "leitossb",
-        "ontX",
-        "Rubix2612"
-      ],
-      "bench": []
-    }
-  },
+  "lineups": {},
   "currentWeek": 1,
   "1029394754791809105": {
     "week": 1,
     "starters": [
-      "ontX",
-      "leitossb",
-      "alexpro",
-      "Pein36",
-      "BennyHaTM",
-      "Rubix2612"
+      "Crash Bootycoot",
+      "Teeples",
+      "Roberto",
+      "Malingre",
+      "Stone",
+      "Pizzi"
     ],
     "bench": []
   }

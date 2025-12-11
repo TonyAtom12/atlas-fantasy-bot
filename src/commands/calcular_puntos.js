@@ -20,19 +20,54 @@ function loadLeagueFiles(league) {
 }
 
 function loadScores(scoresPath) {
-  if (!fs.existsSync(scoresPath))
-    return { weeks: {}, diff: {} };
+  if (!fs.existsSync(scoresPath)) {
+    return { weeks: {}, diff: {}, details: {} };
+  }
 
   const raw = fs.readFileSync(scoresPath, "utf8").trim();
-  if (!raw) return { weeks: {}, diff: {} };
+  if (!raw) {
+    return { weeks: {}, diff: {}, details: {} };
+  }
 
-  return JSON.parse(raw);
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (e) {
+    console.error("❌ scores.json corrupto, recreando:", e.message);
+    return { weeks: {}, diff: {}, details: {} };
+  }
+
+  if (!parsed.weeks || typeof parsed.weeks !== "object") parsed.weeks = {};
+  if (!parsed.diff || typeof parsed.diff !== "object") parsed.diff = {};
+  if (!parsed.details || typeof parsed.details !== "object") parsed.details = {};
+
+  return parsed;
+}
+
+function sanitizeLineups(lineups) {
+  if (!lineups || typeof lineups !== "object") {
+    return { currentWeek: 1, lineups: {} };
+  }
+
+  if (!lineups.lineups || typeof lineups.lineups !== "object") {
+    lineups.lineups = {};
+  }
+
+  for (const key of Object.keys(lineups)) {
+    if (key === "lineups" || key === "currentWeek") continue;
+    if (/^\d+$/.test(key)) {
+      lineups.lineups[key] = lineups[key];
+      delete lineups[key];
+    }
+  }
+
+  return lineups;
 }
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("calcular_puntos")
-    .setDescription("📊 Calcula los puntos fantasy semanales basados en las diferencias del global")
+    .setDescription("📊 Calcula los puntos semanales y genera detalles por jugador")
     .addIntegerOption(opt =>
       opt.setName("semana")
         .setDescription("Número de semana")
@@ -42,62 +77,105 @@ module.exports = {
 
   async execute(interaction) {
     const league = getLeagueFromChannel(interaction.channel.name);
-    if (!league)
-      return interaction.reply({ content: "❌ Usa este comando en un canal de Fantasy.", ephemeral: true });
+    if (!league) {
+      return interaction.reply({
+        content: "❌ Usa este comando en un canal de Fantasy.",
+        ephemeral: true
+      });
+    }
 
     const week = interaction.options.getInteger("semana");
-    
+
+    // GLOBAL players.json
     const globalPlayersPath = path.join(__dirname, "..", "data", "fantasy", "players.json");
+    if (!fs.existsSync(globalPlayersPath)) {
+      return interaction.reply({
+        content: "❌ No se encontró el players.json GLOBAL.",
+        ephemeral: true
+      });
+    }
     const globalPlayers = JSON.parse(fs.readFileSync(globalPlayersPath));
 
     const { managersPath, lineupsPath, scoresPath } = loadLeagueFiles(league);
 
+    if (!fs.existsSync(managersPath) || !fs.existsSync(lineupsPath)) {
+      return interaction.reply({
+        content: "❌ Faltan managers o alineaciones para esta liga.",
+        ephemeral: true
+      });
+    }
+
     const managers = JSON.parse(fs.readFileSync(managersPath));
-    const lineups = JSON.parse(fs.readFileSync(lineupsPath));
-    const scores = loadScores(scoresPath);
+    let lineups = JSON.parse(fs.readFileSync(lineupsPath));
+    lineups = sanitizeLineups(lineups);
 
-    scores.weeks[week] = scores.weeks[week] ?? {};
-    scores.diff[week] = scores.diff[week] ?? {};
+    let scores = loadScores(scoresPath);
 
-    for (const userId in managers) {
-      const lineup = lineups[userId] || lineups.lineups?.[userId];
-      if (!lineup) continue;
+    if (!scores.weeks[week]) scores.weeks[week] = {};
+    if (!scores.diff[week]) scores.diff[week] = {};
+    if (!scores.details[week]) scores.details[week] = {};
 
-      const starters = lineup.starters || [];
-      const bench = lineup.bench || [];
+    // Obtiene diferencia de puntos globales entre semana y semana-1
+    function getDiff(playerName) {
+      const p = globalPlayers[playerName];
+      if (!p || !Array.isArray(p.history)) return 0;
 
-      let total = 0;
+      const actual = p.history.find(h => h.week === week);
+      const prev   = p.history.find(h => h.week === week - 1);
 
-      function getDiff(playerName) {
-        const p = globalPlayers[playerName];
-        if (!p || !p.history) return 0;
+      const a = actual?.totalPoints ?? 0;
+      const b = prev?.totalPoints ?? 0;
 
-        const actual = p.history.find(h => h.week === week);
-        const prev = p.history.find(h => h.week === week - 1);
+      return a - b;
+    }
 
-        const a = actual?.totalPoints ?? 0;
-        const b = prev?.totalPoints ?? 0;
+    function buildDetails(list, multiplier) {
+      const detail = {};
+      let subtotal = 0;
 
-        return a - b;
+      for (const name of list) {
+        const diff = getDiff(name);
+        const pts = Math.round(diff * multiplier);
+        detail[name] = pts;
+        subtotal += pts;
       }
 
-      // titulares
-      starters.forEach(p => {
-        total += getDiff(p);
-      });
+      return { detail, subtotal };
+    }
 
-      // suplentes
-      bench.forEach(p => {
-        total += getDiff(p) * 0.5;
-      });
+    let processed = 0;
 
-      total = Math.round(total);
+    for (const userId of Object.keys(managers)) {
+      const lineup = lineups.lineups?.[userId];
+      if (!lineup) continue;
 
-      scores.weeks[week][userId] = total;
+      const starters = Array.isArray(lineup.starters) ? lineup.starters : [];
+      const bench    = Array.isArray(lineup.bench)    ? lineup.bench    : [];
 
-      // diferencia respecto a semana anterior de manager
-      const prev = scores.weeks[week - 1]?.[userId] ?? 0;
-      scores.diff[week][userId] = total - prev;
+      const dStarters = buildDetails(starters, 1);
+      const dBench = buildDetails(bench, 0.5);
+
+      const finalPoints = dStarters.subtotal + dBench.subtotal;
+
+      // Guardar totales semanales
+      scores.weeks[week][userId] = finalPoints;
+
+      // Diferencia respecto a semana previa
+      const prevPoints = scores.weeks[week - 1]?.[userId] ?? 0;
+      scores.diff[week][userId] = finalPoints - prevPoints;
+
+      // Guardar DETALLES COMPLETOS
+      scores.details[week][userId] = {
+        starters: dStarters.detail,
+        bench: dBench.detail,
+        totals: {
+          starters: dStarters.subtotal,
+          bench: dBench.subtotal,
+          final: finalPoints
+        }
+      };
+
+      processed++;
     }
 
     fs.writeFileSync(scoresPath, JSON.stringify(scores, null, 2));
@@ -105,8 +183,8 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setColor(0x00ff44)
       .setTitle(`📊 Fantasy ${league} — Semana ${week}`)
-      .setDescription(`Puntos semanales calculados correctamente mediante diferencias GLOBAL.`)
-      .addFields({ name: "Managers procesados", value: `${Object.keys(scores.weeks[week]).length}` });
+      .setDescription("Puntos semanales calculados correctamente, con desglose por jugador.")
+      .addFields({ name: "Managers procesados", value: `${processed}`, inline: true });
 
     return interaction.reply({ embeds: [embed] });
   }

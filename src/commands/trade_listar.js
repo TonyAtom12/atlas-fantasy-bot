@@ -53,16 +53,18 @@ module.exports = {
         value: `De: <@${offer.from}>\n🔁 Recibir: **${offer.receive}**\n💨 Dar: **${offer.give}**`
       });
 
-      rows.push(new ActionRowBuilder().addComponents(
-        new ButtonBuilder()
-          .setCustomId(`trade_accept_${offer.id}`)
-          .setLabel("Aceptar")
-          .setStyle(ButtonStyle.Success),
-        new ButtonBuilder()
-          .setCustomId(`trade_reject_${offer.id}`)
-          .setLabel("Rechazar")
-          .setStyle(ButtonStyle.Danger)
-      ));
+      rows.push(
+        new ActionRowBuilder().addComponents(
+          new ButtonBuilder()
+            .setCustomId(`trade_accept_${offer.id}`)
+            .setLabel("Aceptar")
+            .setStyle(ButtonStyle.Success),
+          new ButtonBuilder()
+            .setCustomId(`trade_reject_${offer.id}`)
+            .setLabel("Rechazar")
+            .setStyle(ButtonStyle.Danger)
+        )
+      );
     });
 
     await interaction.reply({

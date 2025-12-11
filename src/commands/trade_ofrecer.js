@@ -43,13 +43,10 @@ module.exports = {
     const players = JSON.parse(fs.readFileSync(playersPath));
     const managers = JSON.parse(fs.readFileSync(managersPath));
 
-    // 🆕 Cargar o crear correctamente estructura de trades
     let trades;
     if (fs.existsSync(tradesPath)) {
       trades = JSON.parse(fs.readFileSync(tradesPath));
-      if (!Array.isArray(trades.offers)) {
-        trades.offers = [];
-      }
+      if (!Array.isArray(trades.offers)) trades.offers = [];
     } else {
       trades = { offers: [] };
     }
@@ -71,13 +68,10 @@ module.exports = {
     if (!sellerId)
       return interaction.reply({ content: "❌ Ese jugador está libre (usa /pujar)", ephemeral: true });
 
-    if (!managers[sellerId])
-      return interaction.reply({ content: "❌ El dueño no existe en esta liga", ephemeral: true });
-
     if (sellerId === userId)
       return interaction.reply({ content: "🤡 No puedes hacer trade contigo mismo", ephemeral: true });
 
-    // Registrar oferta correcta
+    // Crear oferta
     const trade = {
       id: Date.now().toString(),
       league,
@@ -92,13 +86,29 @@ module.exports = {
     trades.offers.push(trade);
     fs.writeFileSync(tradesPath, JSON.stringify(trades, null, 2));
 
+    // 📩 Notificación por DM
+    try {
+      await interaction.client.users.send(
+        sellerId,
+        `📩 **Oferta de trade recibida en ${league}:**\n` +
+        `→ Te ofrecen **${entrego}**\n` +
+        `→ A cambio de **${recibo}**\n\n` +
+        `Usa **/trade_responder** para aceptarlo o rechazarlo.`
+      );
+    } catch (error) {
+      console.error("DM no enviado:", error);
+    }
+
+    // Notificación pública opcional
+    await interaction.channel.send(
+      `📬 <@${sellerId}> tienes una oferta de trade: **${entrego} ⇄ ${recibo}**`
+    );
+
     const embed = new EmbedBuilder()
       .setColor(0x00cc99)
       .setTitle("📩 Oferta de Trade enviada")
-      .setDescription(
-        `Has ofrecido **${entrego}** por **${recibo}**\n\n` +
-        `📬 <@${sellerId}> recibirá una notificación`
-      );
+      .setDescription(`Has ofrecido **${entrego}** por **${recibo}**`)
+      .setFooter({ text: "El otro manager ha sido notificado" });
 
     return interaction.reply({ embeds: [embed], ephemeral: true });
   },

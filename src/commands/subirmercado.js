@@ -37,7 +37,8 @@ module.exports = {
       });
     }
 
-    const globalPlayersPath = path.join(__dirname, "..", "data", "fantasy/players.json");
+    // ⚠️ OJO: aquí corregimos tu error en la ruta del global
+    const globalPlayersPath = path.join(__dirname, "..", "data", "fantasy", "players.json");
     const { leaguePlayersPath, marketPath } = loadLeagueFiles(league);
 
     const globalPlayers = JSON.parse(fs.readFileSync(globalPlayersPath));
@@ -45,14 +46,14 @@ module.exports = {
     const market = JSON.parse(fs.readFileSync(marketPath));
 
     const libres = Object.values(globalPlayers).filter(p =>
-      !leaguePlayers[p.playerName] || 
-      !leaguePlayers[p.playerName].owner
+      !leaguePlayers[p.playerName] || !leaguePlayers[p.playerName].owner
     );
 
     if (libres.length === 0) {
       return interaction.reply("📭 No quedan jugadores libres disponibles en esta liga.");
     }
 
+    // Elegir hasta 10 aleatorios
     const aleatorios = libres
       .sort(() => Math.random() - 0.5)
       .slice(0, Math.min(10, libres.length));
@@ -67,12 +68,15 @@ module.exports = {
 
     fs.writeFileSync(marketPath, JSON.stringify(market, null, 2));
 
+    // 🆕 Mostrar con equipo y división
+    const listado = aleatorios
+      .map(p => `• **${p.playerName}** — ${p.team} (Div ${p.division})`)
+      .join("\n");
+
     const embed = new EmbedBuilder()
       .setColor(0xffd000)
       .setTitle(`🛒 Mercado Semanal — ${league}`)
-      .setDescription(
-        aleatorios.map(p => `• **${p.playerName}**`).join("\n")
-      )
+      .setDescription(listado)
       .setFooter({ text: "A pujar en privado 😎" });
 
     interaction.reply({ embeds: [embed] });

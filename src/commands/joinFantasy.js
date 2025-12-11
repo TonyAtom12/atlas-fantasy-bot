@@ -118,7 +118,12 @@ module.exports = {
       .setDescription(`Has sido inscrito en **${league}**`)
       .addFields({
         name: "🏎️ Tu Equipo Inicial",
-        value: starters.map(p => `• ${p}`).join("\n")
+        value: starters
+          .map(p => {
+            const gp = globalPlayers[p];
+            return `• **${p}** — ${gp.team} (Div ${gp.division})`;
+          })
+          .join("\n")
       })
       .addFields({
         name: "💰 Créditos",
@@ -126,6 +131,7 @@ module.exports = {
         inline: true
       })
       .setFooter({ text: `Liga: ${league}` });
+
 
     return interaction.reply({ embeds: [embed] });
   }

@@ -9,8 +9,9 @@ const fs = require("fs");
 const path = require("path");
 
 function getLeagueFromChannel(channelName) {
-  if (channelName.toLowerCase().includes("fantasy-dmg-a")) return "DominguerosA";
-  if (channelName.toLowerCase().includes("fantasy-dmg-b")) return "DominguerosB";
+  const n = channelName.toLowerCase();
+  if (n.includes("fantasy-dmg-a")) return "DominguerosA";
+  if (n.includes("fantasy-dmg-b")) return "DominguerosB";
   return null;
 }
 
@@ -20,8 +21,22 @@ function loadLeagueFiles(league) {
     managersPath: path.join(base, "managers.json"),
     playersPath: path.join(base, "players.json"),
     lineupsPath: path.join(base, "lineups.json"),
-    marketPath:  path.join(base, "market.json")
+    marketPath: path.join(base, "market.json")
   };
+}
+
+// 🚨 Corrige lineups.json si está corrupto (claves sueltas fuera de lineups.lineups)
+function sanitizeLineups(lineups) {
+  if (!lineups.lineups) lineups.lineups = {};
+
+  for (const key of Object.keys(lineups)) {
+    if (key === "lineups" || key === "currentWeek") continue;
+    if (/^\d+$/.test(key)) {
+      // mover la clave corrupta dentro de lineups.lineups
+      lineups.lineups[key] = lineups[key];
+      delete lineups[key];
+    }
+  }
 }
 
 module.exports = {
@@ -47,15 +62,20 @@ module.exports = {
     const market = fs.existsSync(marketPath)
       ? JSON.parse(fs.readFileSync(marketPath))
       : { week: 1 };
-      let lineups;
-      if (fs.existsSync(lineupsPath)) {
-        lineups = JSON.parse(fs.readFileSync(lineupsPath));
-      } else {
-        lineups = { currentWeek: market.week ?? 1, lineups: {} };
-      }
-// 🔒 Garantizamos estructura válida SIEMPRE
-if (!lineups.lineups) lineups.lineups = {};
-if (!lineups.currentWeek) lineups.currentWeek = market.week ?? 1;
+
+    let lineups;
+    if (fs.existsSync(lineupsPath)) {
+      lineups = JSON.parse(fs.readFileSync(lineupsPath));
+    } else {
+      lineups = { currentWeek: market.week ?? 1, lineups: {} };
+    }
+
+    // 🛠️ Reparar estructuras corruptas
+    sanitizeLineups(lineups);
+
+    if (!lineups.lineups) lineups.lineups = {};
+    if (!lineups.currentWeek) lineups.currentWeek = market.week ?? 1;
+
     const manager = managers[userId];
     if (!manager) {
       return interaction.reply({
@@ -68,8 +88,9 @@ if (!lineups.currentWeek) lineups.currentWeek = market.week ?? 1;
 
     const maxTitulares = 6;
     const currentWeek = market.week ?? lineups.currentWeek ?? 1;
+
     const existing = lineups.lineups[userId] || null;
-        const alreadyForThisWeek =
+    const alreadyForThisWeek =
       existing && existing.week === currentWeek ? existing.starters : [];
 
     const options = team.map(name => {
@@ -107,6 +128,7 @@ if (!lineups.currentWeek) lineups.currentWeek = market.week ?? 1;
     });
 
     const message = await interaction.fetchReply();
+
     const collector = message.createMessageComponentCollector({
       componentType: ComponentType.StringSelect,
       time: 5 * 60 * 1000,
@@ -120,7 +142,7 @@ if (!lineups.currentWeek) lineups.currentWeek = market.week ?? 1;
       const bench = team.filter(p => !selected.includes(p));
 
       lineups.currentWeek = currentWeek;
-      if (!lineups.lineups) lineups.lineups = {};
+
       lineups.lineups[userId] = {
         week: currentWeek,
         starters: selected,

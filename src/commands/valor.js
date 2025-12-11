@@ -42,7 +42,6 @@ module.exports = {
     const { playersPath, managersPath, marketPath } = loadLeagueFiles(league);
 
     const playerName = interaction.options.getString("jugador");
-
     const players = JSON.parse(fs.readFileSync(playersPath));
     const managers = JSON.parse(fs.readFileSync(managersPath));
     const market = JSON.parse(fs.readFileSync(marketPath));
@@ -55,7 +54,9 @@ module.exports = {
       });
     }
 
-    // Si faltaba valor → calcular y registrar
+    // ---------------------------------------
+    // 🔧 VALOR DEL JUGADOR (si no existe, se calcula)
+    // ---------------------------------------
     if (!player.value) {
       if (!player.average) {
         return interaction.reply({
@@ -65,19 +66,34 @@ module.exports = {
       }
 
       player.value = Math.round(player.average * 1.3);
+
       if (!player.valueHistory) player.valueHistory = [];
       player.valueHistory.push({
         week: market.week ?? 1,
         value: player.value
       });
-
-      fs.writeFileSync(playersPath, JSON.stringify(players, null, 2));
     }
 
     const value = player.value;
-    const clause = Math.round(value * 1.5);
 
-    // Estado del jugador
+    // ---------------------------------------
+    // 🔐 CLÁUSULA REAL
+    // — usar la guardada en players.json
+    // — si no existe, generarla correctamente
+    // ---------------------------------------
+    let clause = player.clause;
+
+    if (!clause) {
+      clause = value * 2; // sistema oficial
+      player.clause = clause;
+    }
+
+    // Guardar cambios si hemos generado valor o cláusula
+    fs.writeFileSync(playersPath, JSON.stringify(players, null, 2));
+
+    // ---------------------------------------
+    // 🔎 ESTADO DEL JUGADOR
+    // ---------------------------------------
     let estado = "🟢 Libre";
     let detalles = "Puedes pedir que salga al mercado.";
 
@@ -85,20 +101,22 @@ module.exports = {
 
     if (player.owner && managers[player.owner]) {
       const owner = managers[player.owner];
+
       estado = `🔒 En plantilla de **${owner.username}**`;
 
       const loss = owner.clauseLoss ?? 0;
-      if (loss >= 1) {
-        detalles = "🚫 No se puede aplicar cláusula esta semana a ese manager.";
-      } else {
-        detalles = "🔐 Solo se puede fichar con cláusula.";
-      }
-
+      detalles =
+        loss >= 1
+          ? "🚫 No se puede aplicar cláusula esta semana a ese manager."
+          : "🔐 Solo se puede fichar con cláusula.";
     } else if (inMarket) {
       estado = "📈 En subasta esta semana";
       detalles = "📢 Usa `/pujar` para participar.";
     }
 
+    // ---------------------------------------
+    // 📌 EMBED FINAL
+    // ---------------------------------------
     const embed = new EmbedBuilder()
       .setColor(0x00ff88)
       .setTitle(`💰 Valor de ${playerName}`)

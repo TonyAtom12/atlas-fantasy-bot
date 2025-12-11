@@ -67,20 +67,20 @@ client.on("interactionCreate", async interaction => {
     }
 
 // ---------------------------------------------
-// BOTONES TRADE (Aceptar / Rechazar) — FIX COMPLETO
+// BOTONES TRADE — Aceptar / Rechazar con bloqueo
 // ---------------------------------------------
 if (interaction.isButton()) {
-  const league = getLeagueFromChannel(interaction.channel.name);
-  if (!league) return interaction.reply({ content: "❌ Botón inválido en este canal.", ephemeral: true });
+  const league = getLeagueFromChannel(interaction.channel?.name);
+  if (!league)
+    return interaction.reply({ content: "❌ Este botón no pertenece al Fantasy.", ephemeral: true });
 
   const base = path.join(__dirname, "data", "fantasy", league);
   const tradesPath = path.join(base, "trades.json");
   const playersPath = path.join(base, "players.json");
   const managersPath = path.join(base, "managers.json");
 
-  if (!fs.existsSync(tradesPath)) {
-    return interaction.reply({ content: "⚠ No hay trades activos", ephemeral: true });
-  }
+  if (!fs.existsSync(tradesPath))
+    return interaction.reply({ content: "⚠ No hay trades activos.", ephemeral: true });
 
   const trades = JSON.parse(fs.readFileSync(tradesPath));
   const players = JSON.parse(fs.readFileSync(playersPath));
@@ -88,25 +88,45 @@ if (interaction.isButton()) {
 
   const userId = interaction.user.id;
   const [, action, tradeId] = interaction.customId.split("_");
-  const offer = trades.offers.find(o => o.id === tradeId);
 
-  if (!offer) {
+  const offer = trades.offers.find(o => o.id === tradeId);
+  if (!offer)
     return interaction.reply({ content: "❌ Oferta no encontrada.", ephemeral: true });
-  }
-  if (offer.to !== userId) {
-    return interaction.reply({ content: "🚫 No eres el receptor de esta oferta.", ephemeral: true });
-  }
+
+  if (offer.to !== userId)
+    return interaction.reply({ content: "🚫 Esta oferta no es para ti.", ephemeral: true });
 
   const pGive = players[offer.give];
   const pReceive = players[offer.receive];
-
   const mFrom = managers[offer.from];
   const mTo = managers[offer.to];
 
   if (!pGive || !pReceive || !mFrom || !mTo)
-    return interaction.reply({ content: "⚠ Error inesperado en el trade", ephemeral: true });
+    return interaction.reply({ content: "⚠ Error interno en el trade.", ephemeral: true });
 
-  // 🧹 Sincronizar equipos según owners ANTES del intercambio
+  // ================================
+  // 🚫 DESHABILITAR BOTONES INMEDIATO
+  // ================================
+  try {
+    const row = interaction.message.components[0];
+    const disabledRow = {
+      type: 1,
+      components: row.components.map(btn => ({
+        ...btn.data,
+        disabled: true
+      }))
+    };
+
+    await interaction.update({
+      components: [disabledRow]
+    });
+  } catch (e) {
+    console.warn("⚠ No se pudo deshabilitar botones inicialmente:", e);
+  }
+
+  // ===================================
+  // 🧹 Sincronizar equipos antes del trade
+  // ===================================
   Object.values(managers).forEach(m => m.team = []);
   Object.values(players).forEach(p => {
     if (p.owner && managers[p.owner]) {
@@ -114,14 +134,14 @@ if (interaction.isButton()) {
     }
   });
 
+  // ===================================
+  // 🤝 ACEPTAR TRADE
+  // ===================================
   if (action === "accept") {
-    console.log("🔁 Ejecutando Trade:");
-
-    // Cambiar owner primero
     pGive.owner = offer.to;
     pReceive.owner = offer.from;
 
-    // Volver a sincronizar team con nuevos owners
+    // Resync después del intercambio
     Object.values(managers).forEach(m => m.team = []);
     Object.values(players).forEach(p => {
       if (p.owner && managers[p.owner]) {
@@ -129,10 +149,11 @@ if (interaction.isButton()) {
       }
     });
 
-    // Subida de valor
-    const updateVal = p => {
+    // Subida de valor + registro
+    const boost = p => {
       p.value = Math.round(p.value * 1.10);
       p.clause = p.value * 2;
+
       if (!p.transferHistory) p.transferHistory = [];
       p.transferHistory.push({
         week: Date.now(),
@@ -141,8 +162,8 @@ if (interaction.isButton()) {
         type: "trade"
       });
     };
-    updateVal(pGive);
-    updateVal(pReceive);
+    boost(pGive);
+    boost(pReceive);
 
     offer.status = "accepted";
 
@@ -150,22 +171,26 @@ if (interaction.isButton()) {
     fs.writeFileSync(managersPath, JSON.stringify(managers, null, 2));
     fs.writeFileSync(tradesPath, JSON.stringify(trades, null, 2));
 
-    return interaction.reply({
-      content: `🤝 Trade realizado: **${offer.give}** ↔ **${offer.receive}** 🔥`,
+    return interaction.followUp({
+      content: `🤝 Trade completado: **${offer.give}** ↔ **${offer.receive}**`,
       ephemeral: true
     });
   }
 
+  // ===================================
+  // ❌ RECHAZAR TRADE
+  // ===================================
   if (action === "reject") {
     offer.status = "rejected";
     fs.writeFileSync(tradesPath, JSON.stringify(trades, null, 2));
 
-    return interaction.reply({
-      content: "❌ Has rechazado el intercambio.",
+    return interaction.followUp({
+      content: "❌ Trade rechazado.",
       ephemeral: true
     });
   }
 }
+
 
 
   } catch (err) {
