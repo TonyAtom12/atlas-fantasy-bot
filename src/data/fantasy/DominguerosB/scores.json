@@ -1,6 +1,98 @@
 {
-  "weeks": {},
-  "diff": {},
-  "details": {},
+  "weeks": {
+    "1": {
+      "1029394754791809105": 100,
+      "556233034261594114": 120
+    },
+    "2": {
+      "1029394754791809105": 950,
+      "556233034261594114": 100
+    }
+  },
+  "diff": {
+    "1": {
+      "1029394754791809105": 100,
+      "556233034261594114": 120
+    },
+    "2": {
+      "1029394754791809105": 850,
+      "556233034261594114": -20
+    }
+  },
+  "details": {
+    "1": {
+      "1029394754791809105": {
+        "starters": {
+          "Tyler": 30,
+          "LilNickf6": 70,
+          "Starlow": 0,
+          "Giovannisland24": 0,
+          "Nick": 0,
+          "Aleformula": 0
+        },
+        "bench": {},
+        "totals": {
+          "starters": 100,
+          "bench": 0,
+          "final": 100
+        }
+      },
+      "556233034261594114": {
+        "starters": {
+          "Matt": 80,
+          "Ryokku": 0,
+          "Aleek": 40,
+          "Mitxo": 0,
+          "Naadal": 0
+        },
+        "bench": {},
+        "totals": {
+          "starters": 120,
+          "bench": 0,
+          "final": 120
+        }
+      }
+    },
+    "2": {
+      "1029394754791809105": {
+        "starters": {
+          "LilNickf6": 0,
+          "Starlow": 950,
+          "Giovannisland24": 0,
+          "Nick": 0,
+          "Aleformula": 0,
+          "q.": 0
+        },
+        "bench": {
+          "Tyler": 0,
+          "Crash Bootycoot": 0,
+          "Holl0w": 0
+        },
+        "totals": {
+          "starters": 950,
+          "bench": 0,
+          "final": 950
+        }
+      },
+      "556233034261594114": {
+        "starters": {
+          "Matt": 100,
+          "Ryokku": 0,
+          "Aleek": 0,
+          "Mitxo": 0,
+          "Naadal": 0,
+          "Soldier": 0
+        },
+        "bench": {
+          "Kizū": 0
+        },
+        "totals": {
+          "starters": 100,
+          "bench": 0,
+          "final": 100
+        }
+      }
+    }
+  },
   "totalPoints": {}
 }

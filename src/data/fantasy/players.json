@@ -10,6 +10,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -23,6 +31,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -38,6 +54,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -51,6 +75,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -66,6 +98,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -79,6 +119,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -94,6 +142,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -107,6 +163,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -122,6 +186,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -135,6 +207,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -150,6 +230,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -163,6 +251,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -178,6 +274,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -192,6 +296,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -200,12 +312,20 @@
     "team": "Severance",
     "tag": "svξ",
     "division": "1",
-    "totalPoints": 0,
+    "totalPoints": 950,
     "average": 92.5,
     "history": [
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 950
       }
     ]
   },
@@ -214,12 +334,20 @@
     "team": "Severance",
     "tag": "svξ",
     "division": "1",
-    "totalPoints": 0,
+    "totalPoints": 30,
     "average": 86.9,
     "history": [
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 30
+      },
+      {
+        "week": 2,
+        "totalPoints": 30
       }
     ]
   },
@@ -233,6 +361,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -248,6 +384,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -261,6 +405,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -276,6 +428,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -289,6 +449,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -304,6 +472,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -317,6 +493,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -332,6 +516,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -345,6 +537,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -360,6 +560,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -373,6 +581,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -388,6 +604,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -401,6 +625,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -416,6 +648,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -429,6 +669,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -444,6 +692,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -457,6 +713,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -472,6 +736,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -485,6 +757,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -500,6 +780,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -513,6 +801,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -528,6 +824,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -541,6 +845,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -556,6 +868,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -569,6 +889,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -584,6 +912,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -597,6 +933,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -612,6 +956,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -625,6 +977,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -640,6 +1000,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -648,12 +1016,20 @@
     "team": "GV Mario Kart Team",
     "tag": "GV",
     "division": "2",
-    "totalPoints": 0,
+    "totalPoints": 180,
     "average": 68.9,
     "history": [
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 80
+      },
+      {
+        "week": 2,
+        "totalPoints": 180
       }
     ]
   },
@@ -667,6 +1043,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -682,6 +1066,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -690,12 +1082,20 @@
     "team": "GV Mario Kart Team",
     "tag": "GV",
     "division": "2",
-    "totalPoints": 0,
+    "totalPoints": 70,
     "average": 61.5,
     "history": [
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 70
+      },
+      {
+        "week": 2,
+        "totalPoints": 70
       }
     ]
   },
@@ -710,6 +1110,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -718,12 +1126,20 @@
     "team": "Jet Jockey Factory",
     "tag": "JJ",
     "division": "2",
-    "totalPoints": 0,
+    "totalPoints": 40,
     "average": 91.5,
     "history": [
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 40
+      },
+      {
+        "week": 2,
+        "totalPoints": 40
       }
     ]
   },
@@ -737,6 +1153,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -752,6 +1176,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -765,6 +1197,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -780,6 +1220,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -793,6 +1241,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -808,6 +1264,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -821,6 +1285,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -836,6 +1308,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -849,6 +1329,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -864,6 +1352,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -877,6 +1373,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -892,6 +1396,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -905,6 +1417,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -920,6 +1440,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -933,6 +1461,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -948,6 +1484,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -961,6 +1505,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -976,6 +1528,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -989,6 +1549,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -1004,6 +1572,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -1017,6 +1593,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -1032,6 +1616,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -1045,6 +1637,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -1060,6 +1660,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -1073,6 +1681,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -1088,6 +1704,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -1101,6 +1725,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -1116,6 +1748,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -1129,6 +1769,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -1144,6 +1792,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -1157,6 +1813,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -1172,6 +1836,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -1185,6 +1857,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]
@@ -1200,6 +1880,14 @@
       {
         "week": 0,
         "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
+        "totalPoints": 0
       }
     ]
   },
@@ -1213,6 +1901,14 @@
     "history": [
       {
         "week": 0,
+        "totalPoints": 0
+      },
+      {
+        "week": 1,
+        "totalPoints": 0
+      },
+      {
+        "week": 2,
         "totalPoints": 0
       }
     ]

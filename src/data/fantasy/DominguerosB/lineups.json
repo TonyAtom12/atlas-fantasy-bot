@@ -1,16 +1,38 @@
 {
-  "lineups": {},
-  "currentWeek": 1,
-  "1029394754791809105": {
-    "week": 1,
-    "starters": [
-      "Crash Bootycoot",
-      "Teeples",
-      "Roberto",
-      "Malingre",
-      "Stone",
-      "Pizzi"
-    ],
-    "bench": []
-  }
+  "lineups": {
+    "556233034261594114": {
+      "week": 2,
+      "starters": [
+        "Matt",
+        "Ryokku",
+        "Aleek",
+        "Mitxo",
+        "Naadal",
+        "Soldier"
+      ],
+      "bench": [
+        "Kizū",
+        "CanosoJr",
+        "Dark",
+        "green"
+      ]
+    },
+    "1029394754791809105": {
+      "week": 2,
+      "starters": [
+        "LilNickf6",
+        "Starlow",
+        "Giovannisland24",
+        "Nick",
+        "Aleformula",
+        "q."
+      ],
+      "bench": [
+        "Tyler",
+        "Crash Bootycoot",
+        "Holl0w"
+      ]
+    }
+  },
+  "currentWeek": 3
 }

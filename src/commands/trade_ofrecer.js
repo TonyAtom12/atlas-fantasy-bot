@@ -93,7 +93,7 @@ module.exports = {
         `📩 **Oferta de trade recibida en ${league}:**\n` +
         `→ Te ofrecen **${entrego}**\n` +
         `→ A cambio de **${recibo}**\n\n` +
-        `Usa **/trade_responder** para aceptarlo o rechazarlo.`
+        `Usa **/trade_listar** para aceptarlo o rechazarlo.`
       );
     } catch (error) {
       console.error("DM no enviado:", error);

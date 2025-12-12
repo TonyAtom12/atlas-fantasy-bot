@@ -2,7 +2,8 @@ require("dotenv").config();
 const {
   Client,
   GatewayIntentBits,
-  Collection
+  Collection,
+  MessageFlags
 } = require("discord.js");
 const fs = require("fs");
 const path = require("path");
@@ -31,174 +32,247 @@ const client = new Client({
 
 client.commands = new Collection();
 
-// Cargar comandos
+// ================================================
+// 📦 Cargar comandos
+// ================================================
 const commandsPath = path.join(__dirname, "commands");
 const commandFiles = fs.readdirSync(commandsPath).filter(f => f.endsWith(".js"));
+
 for (const file of commandFiles) {
   const cmd = require(path.join(commandsPath, file));
-  if (cmd.data && cmd.execute) {
+  if (cmd?.data && cmd?.execute) {
     client.commands.set(cmd.data.name, cmd);
     console.log(`🟢 Comando cargado: ${cmd.data.name}`);
   }
 }
 
-client.once("ready", () =>
-  console.log(`🚀 Bot iniciado como ${client.user.tag}`)
-);
+client.once("ready", () => {
+  console.log(`🚀 Bot iniciado como ${client.user.tag}`);
+});
 
 // ================================================
 // 🎮 MANEJO DE INTERACCIONES
 // ================================================
 client.on("interactionCreate", async interaction => {
   try {
+    // ============================================
     // 🔹 AUTOCOMPLETADO
+    // ============================================
     if (interaction.isAutocomplete()) {
       const cmd = client.commands.get(interaction.commandName);
-      if (cmd?.autocomplete) await cmd.autocomplete(interaction);
-      return;
-    }
-
-    // 🔹 SLASH COMMANDS
-    if (interaction.isChatInputCommand()) {
-      const cmd = client.commands.get(interaction.commandName);
-      if (!cmd) return;
-      await cmd.execute(interaction);
-      return;
-    }
-
-// ---------------------------------------------
-// BOTONES TRADE — Aceptar / Rechazar con bloqueo
-// ---------------------------------------------
-if (interaction.isButton()) {
-  const league = getLeagueFromChannel(interaction.channel?.name);
-  if (!league)
-    return interaction.reply({ content: "❌ Este botón no pertenece al Fantasy.", ephemeral: true });
-
-  const base = path.join(__dirname, "data", "fantasy", league);
-  const tradesPath = path.join(base, "trades.json");
-  const playersPath = path.join(base, "players.json");
-  const managersPath = path.join(base, "managers.json");
-
-  if (!fs.existsSync(tradesPath))
-    return interaction.reply({ content: "⚠ No hay trades activos.", ephemeral: true });
-
-  const trades = JSON.parse(fs.readFileSync(tradesPath));
-  const players = JSON.parse(fs.readFileSync(playersPath));
-  const managers = JSON.parse(fs.readFileSync(managersPath));
-
-  const userId = interaction.user.id;
-  const [, action, tradeId] = interaction.customId.split("_");
-
-  const offer = trades.offers.find(o => o.id === tradeId);
-  if (!offer)
-    return interaction.reply({ content: "❌ Oferta no encontrada.", ephemeral: true });
-
-  if (offer.to !== userId)
-    return interaction.reply({ content: "🚫 Esta oferta no es para ti.", ephemeral: true });
-
-  const pGive = players[offer.give];
-  const pReceive = players[offer.receive];
-  const mFrom = managers[offer.from];
-  const mTo = managers[offer.to];
-
-  if (!pGive || !pReceive || !mFrom || !mTo)
-    return interaction.reply({ content: "⚠ Error interno en el trade.", ephemeral: true });
-
-  // ================================
-  // 🚫 DESHABILITAR BOTONES INMEDIATO
-  // ================================
-  try {
-    const row = interaction.message.components[0];
-    const disabledRow = {
-      type: 1,
-      components: row.components.map(btn => ({
-        ...btn.data,
-        disabled: true
-      }))
-    };
-
-    await interaction.update({
-      components: [disabledRow]
-    });
-  } catch (e) {
-    console.warn("⚠ No se pudo deshabilitar botones inicialmente:", e);
-  }
-
-  // ===================================
-  // 🧹 Sincronizar equipos antes del trade
-  // ===================================
-  Object.values(managers).forEach(m => m.team = []);
-  Object.values(players).forEach(p => {
-    if (p.owner && managers[p.owner]) {
-      managers[p.owner].team.push(p.playerName);
-    }
-  });
-
-  // ===================================
-  // 🤝 ACEPTAR TRADE
-  // ===================================
-  if (action === "accept") {
-    pGive.owner = offer.to;
-    pReceive.owner = offer.from;
-
-    // Resync después del intercambio
-    Object.values(managers).forEach(m => m.team = []);
-    Object.values(players).forEach(p => {
-      if (p.owner && managers[p.owner]) {
-        managers[p.owner].team.push(p.playerName);
+      if (cmd?.autocomplete) {
+        await cmd.autocomplete(interaction);
       }
-    });
+      return;
+    }
 
-    // Subida de valor + registro
-    const boost = p => {
-      p.value = Math.round(p.value * 1.10);
-      p.clause = p.value * 2;
+if (interaction.isChatInputCommand()) {
+  const cmd = client.commands.get(interaction.commandName);
+  if (!cmd) return;
 
-      if (!p.transferHistory) p.transferHistory = [];
-      p.transferHistory.push({
-        week: Date.now(),
-        from: offer.from,
-        to: offer.to,
-        type: "trade"
-      });
-    };
-    boost(pGive);
-    boost(pReceive);
+  try {
+    await cmd.execute(interaction);
+  } catch (err) {
+    console.error(`❌ Error en /${interaction.commandName}:`, err);
 
-    offer.status = "accepted";
-
-    fs.writeFileSync(playersPath, JSON.stringify(players, null, 2));
-    fs.writeFileSync(managersPath, JSON.stringify(managers, null, 2));
-    fs.writeFileSync(tradesPath, JSON.stringify(trades, null, 2));
-
-    return interaction.followUp({
-      content: `🤝 Trade completado: **${offer.give}** ↔ **${offer.receive}**`,
-      ephemeral: true
-    });
+    // ⚠️ SOLO si nadie respondió aún
+    if (!interaction.replied && !interaction.deferred) {
+      try {
+        await interaction.reply({
+          content: "⚠ Error inesperado.",
+          flags: MessageFlags.Ephemeral
+        });
+      } catch {
+        // interacción ya muerta
+      }
+    }
   }
-
-  // ===================================
-  // ❌ RECHAZAR TRADE
-  // ===================================
-  if (action === "reject") {
-    offer.status = "rejected";
-    fs.writeFileSync(tradesPath, JSON.stringify(trades, null, 2));
-
-    return interaction.followUp({
-      content: "❌ Trade rechazado.",
-      ephemeral: true
-    });
-  }
+  return;
 }
 
 
 
+    // ============================================
+    // 🔘 BOTONES DE TRADE
+    // ============================================
+    if (interaction.isButton()) {
+      const league = getLeagueFromChannel(interaction.channel?.name);
+      if (!league) {
+        return interaction.reply({
+          content: "❌ Este botón no pertenece al Fantasy.",
+          flags: MessageFlags.Ephemeral
+        });
+      }
+
+      const base = path.join(__dirname, "data", "fantasy", league);
+      const tradesPath = path.join(base, "trades.json");
+      const playersPath = path.join(base, "players.json");
+      const managersPath = path.join(base, "managers.json");
+
+      if (!fs.existsSync(tradesPath)) {
+        return interaction.reply({
+          content: "⚠ No hay trades activos.",
+          flags: MessageFlags.Ephemeral
+        });
+      }
+
+      const trades = JSON.parse(fs.readFileSync(tradesPath));
+      const players = JSON.parse(fs.readFileSync(playersPath));
+      const managers = JSON.parse(fs.readFileSync(managersPath));
+
+      const userId = interaction.user.id;
+      const [, action, tradeId] = interaction.customId.split("_");
+
+      const offer = trades.offers.find(o => o.id === tradeId);
+      if (!offer) {
+        return interaction.reply({
+          content: "❌ Oferta no encontrada.",
+          flags: MessageFlags.Ephemeral
+        });
+      }
+
+      if (offer.to !== userId) {
+        return interaction.reply({
+          content: "🚫 Esta oferta no es para ti.",
+          flags: MessageFlags.Ephemeral
+        });
+      }
+
+      if (offer.status !== "pending") {
+        return interaction.reply({
+          content: "⛔ Este trade ya fue resuelto.",
+          flags: MessageFlags.Ephemeral
+        });
+      }
+
+      // ============================================
+      // ⏱ ACK inmediato
+      // ============================================
+      await interaction.deferUpdate();
+
+      // ============================================
+      // 🔒 Deshabilitar SOLO los botones de ESTE trade
+      // ============================================
+      const disabledComponents = interaction.message.components.map(row => ({
+        type: 1,
+        components: row.components.map(btn => {
+          if (btn.customId?.endsWith(tradeId)) {
+            return {
+              ...btn.data,
+              disabled: true
+            };
+          }
+          return btn.data;
+        })
+      }));
+
+      await interaction.editReply({
+        components: disabledComponents
+      });
+
+      const pGive = players[offer.give];
+      const pReceive = players[offer.receive];
+      const mFrom = managers[offer.from];
+      const mTo = managers[offer.to];
+
+      if (!pGive || !pReceive || !mFrom || !mTo) {
+        return interaction.followUp({
+          content: "⚠ Error interno en el trade.",
+          flags: MessageFlags.Ephemeral
+        });
+      }
+
+      // ============================================
+      // 🔄 Sincronizar equipos antes
+      // ============================================
+      Object.values(managers).forEach(m => (m.team = []));
+      Object.values(players).forEach(p => {
+        if (p.owner && managers[p.owner]) {
+          managers[p.owner].team.push(p.playerName);
+        }
+      });
+
+      // ============================================
+      // 🤝 ACEPTAR TRADE
+      // ============================================
+      if (action === "accept") {
+        pGive.owner = offer.to;
+        pReceive.owner = offer.from;
+
+        Object.values(managers).forEach(m => (m.team = []));
+        Object.values(players).forEach(p => {
+          if (p.owner && managers[p.owner]) {
+            managers[p.owner].team.push(p.playerName);
+          }
+        });
+
+        const boost = p => {
+          p.value = Math.round(p.value * 1.1);
+          p.clause = p.value * 2;
+          p.transferHistory ??= [];
+          p.transferHistory.push({
+            date: Date.now(),
+            from: offer.from,
+            to: offer.to,
+            type: "trade"
+          });
+        };
+
+        boost(pGive);
+        boost(pReceive);
+
+        offer.status = "accepted";
+
+        fs.writeFileSync(playersPath, JSON.stringify(players, null, 2));
+        fs.writeFileSync(managersPath, JSON.stringify(managers, null, 2));
+        fs.writeFileSync(tradesPath, JSON.stringify(trades, null, 2));
+
+        return interaction.followUp({
+          content: `🤝 Trade completado: **${offer.give}** ↔ **${offer.receive}**`,
+          flags: MessageFlags.Ephemeral
+        });
+      }
+
+      // ============================================
+      // ❌ RECHAZAR TRADE
+      // ============================================
+      if (action === "reject") {
+        offer.status = "rejected";
+        fs.writeFileSync(tradesPath, JSON.stringify(trades, null, 2));
+
+        return interaction.followUp({
+          content: "❌ Trade rechazado.",
+          flags: MessageFlags.Ephemeral
+        });
+      }
+    }
   } catch (err) {
-    console.error("❌ ERROR en interaction:", err);
-    if (!interaction.replied) {
-      await interaction.reply({ content: "⚠ Error inesperado", ephemeral: true });
+  console.error("❌ ERROR en interaction:", err);
+
+  // ⚠️ NO responder en autocomplete
+  if (interaction.isAutocomplete()) {
+    return;
+  }
+
+  // ⚠️ Solo responder si es una interacción válida
+  if (
+    interaction.isChatInputCommand() ||
+    interaction.isButton() ||
+    interaction.isModalSubmit()
+  ) {
+    if (!interaction.replied && !interaction.deferred) {
+      try {
+        await interaction.reply({
+          content: "⚠ Error inesperado.",
+          flags: MessageFlags.Ephemeral
+        });
+      } catch (e) {
+        // la interacción ya murió, no hacemos nada
+      }
     }
   }
+}
+
 });
 
 // ================================================
