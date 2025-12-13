@@ -1,7 +1,14 @@
-const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  PermissionFlagsBits,
+  EmbedBuilder
+} = require("discord.js");
 const fs = require("fs");
 const path = require("path");
 
+// =======================================
+// 🎯 Detectar liga
+// =======================================
 function getLeagueFromChannel(name) {
   const n = name.toLowerCase();
   if (n.includes("fantasy-dmg-a")) return "DominguerosA";
@@ -13,9 +20,8 @@ function loadLeagueFiles(league) {
   const base = path.join(__dirname, "..", "data", "fantasy", league);
   return {
     managersPath: path.join(base, "managers.json"),
-    playersFantasyPath: path.join(base, "players.json"),
-    lineupsPath: path.join(base, "lineups.json"),
-    scoresPath: path.join(base, "scores.json"),
+    lineupsPath:  path.join(base, "lineups.json"),
+    scoresPath:   path.join(base, "scores.json"),
   };
 }
 
@@ -24,50 +30,30 @@ function loadScores(scoresPath) {
     return { weeks: {}, diff: {}, details: {} };
   }
 
-  const raw = fs.readFileSync(scoresPath, "utf8").trim();
-  if (!raw) {
-    return { weeks: {}, diff: {}, details: {} };
-  }
-
-  let parsed;
-  try {
-    parsed = JSON.parse(raw);
-  } catch (e) {
-    console.error("❌ scores.json corrupto, recreando:", e.message);
-    return { weeks: {}, diff: {}, details: {} };
-  }
-
-  if (!parsed.weeks || typeof parsed.weeks !== "object") parsed.weeks = {};
-  if (!parsed.diff || typeof parsed.diff !== "object") parsed.diff = {};
-  if (!parsed.details || typeof parsed.details !== "object") parsed.details = {};
-
+  const parsed = JSON.parse(fs.readFileSync(scoresPath, "utf8"));
+  parsed.weeks   ??= {};
+  parsed.diff    ??= {};
+  parsed.details ??= {};
   return parsed;
 }
 
 function sanitizeLineups(lineups) {
-  if (!lineups || typeof lineups !== "object") {
-    return { currentWeek: 1, lineups: {} };
-  }
-
-  if (!lineups.lineups || typeof lineups.lineups !== "object") {
-    lineups.lineups = {};
-  }
-
-  for (const key of Object.keys(lineups)) {
-    if (key === "lineups" || key === "currentWeek") continue;
-    if (/^\d+$/.test(key)) {
-      lineups.lineups[key] = lineups[key];
-      delete lineups[key];
-    }
-  }
-
+  lineups.lineups ??= {};
   return lineups;
 }
 
+// =======================================
+// 🏆 Premios
+// =======================================
+const PRIZES = [100, 80, 60, 40, 20];
+
+// =======================================
+// 📊 COMANDO
+// =======================================
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("calcular_puntos")
-    .setDescription("📊 Calcula los puntos semanales y genera detalles por jugador")
+    .setDescription("📊 Calcula puntos semanales y reparte créditos")
     .addIntegerOption(opt =>
       opt.setName("semana")
         .setDescription("Número de semana")
@@ -85,48 +71,32 @@ module.exports = {
     }
 
     const week = interaction.options.getInteger("semana");
+    const prevWeek = week - 1;
 
-    // GLOBAL players.json
     const globalPlayersPath = path.join(__dirname, "..", "data", "fantasy", "players.json");
-    if (!fs.existsSync(globalPlayersPath)) {
-      return interaction.reply({
-        content: "❌ No se encontró el players.json GLOBAL.",
-        ephemeral: true
-      });
-    }
     const globalPlayers = JSON.parse(fs.readFileSync(globalPlayersPath));
 
     const { managersPath, lineupsPath, scoresPath } = loadLeagueFiles(league);
 
-    if (!fs.existsSync(managersPath) || !fs.existsSync(lineupsPath)) {
-      return interaction.reply({
-        content: "❌ Faltan managers o alineaciones para esta liga.",
-        ephemeral: true
-      });
-    }
-
     const managers = JSON.parse(fs.readFileSync(managersPath));
     let lineups = JSON.parse(fs.readFileSync(lineupsPath));
     lineups = sanitizeLineups(lineups);
+    const scores = loadScores(scoresPath);
 
-    let scores = loadScores(scoresPath);
+    scores.weeks[week]   ??= {};
+    scores.diff[week]    ??= {};
+    scores.details[week] ??= {};
 
-    if (!scores.weeks[week]) scores.weeks[week] = {};
-    if (!scores.diff[week]) scores.diff[week] = {};
-    if (!scores.details[week]) scores.details[week] = {};
-
-    // Obtiene diferencia de puntos globales entre semana y semana-1
+    // =======================================
+    // 🔢 Helpers
+    // =======================================
     function getDiff(playerName) {
       const p = globalPlayers[playerName];
-      if (!p || !Array.isArray(p.history)) return 0;
+      if (!p?.history) return 0;
 
-      const actual = p.history.find(h => h.week === week);
-      const prev   = p.history.find(h => h.week === week - 1);
-
-      const a = actual?.totalPoints ?? 0;
-      const b = prev?.totalPoints ?? 0;
-
-      return a - b;
+      const actual = p.history.find(h => h.week === week)?.totalPoints ?? 0;
+      const prev   = p.history.find(h => h.week === prevWeek)?.totalPoints ?? 0;
+      return actual - prev;
     }
 
     function buildDetails(list, multiplier) {
@@ -134,8 +104,7 @@ module.exports = {
       let subtotal = 0;
 
       for (const name of list) {
-        const diff = getDiff(name);
-        const pts = Math.round(diff * multiplier);
+        const pts = Math.round(getDiff(name) * multiplier);
         detail[name] = pts;
         subtotal += pts;
       }
@@ -143,28 +112,28 @@ module.exports = {
       return { detail, subtotal };
     }
 
+    // =======================================
+    // 🧮 Cálculo
+    // =======================================
     let processed = 0;
 
     for (const userId of Object.keys(managers)) {
-      const lineup = lineups.lineups?.[userId];
+      const lineup = lineups.lineups[userId];
       if (!lineup) continue;
 
-      const starters = Array.isArray(lineup.starters) ? lineup.starters : [];
-      const bench    = Array.isArray(lineup.bench)    ? lineup.bench    : [];
+      const starters = lineup.starters ?? [];
+      const bench    = lineup.bench ?? [];
 
       const dStarters = buildDetails(starters, 1);
-      const dBench = buildDetails(bench, 0.5);
+      const dBench    = buildDetails(bench, 0.5);
 
       const finalPoints = dStarters.subtotal + dBench.subtotal;
 
-      // Guardar totales semanales
       scores.weeks[week][userId] = finalPoints;
 
-      // Diferencia respecto a semana previa
-      const prevPoints = scores.weeks[week - 1]?.[userId] ?? 0;
+      const prevPoints = scores.weeks[prevWeek]?.[userId] ?? 0;
       scores.diff[week][userId] = finalPoints - prevPoints;
 
-      // Guardar DETALLES COMPLETOS
       scores.details[week][userId] = {
         starters: dStarters.detail,
         bench: dBench.detail,
@@ -178,13 +147,46 @@ module.exports = {
       processed++;
     }
 
-    fs.writeFileSync(scoresPath, JSON.stringify(scores, null, 2));
+    // =======================================
+    // 🏆 Ranking + créditos
+    // =======================================
+    const ranking = Object.entries(scores.weeks[week])
+      .map(([userId, points]) => ({ userId, points }))
+      .sort((a, b) => b.points - a.points);
 
+    const prizeText = [];
+
+    ranking.forEach((r, index) => {
+      const prize = PRIZES[index] ?? 0;
+      if (!managers[r.userId]) return;
+
+      const before = managers[r.userId].credits ?? 0;
+      const after  = before + prize;
+
+      managers[r.userId].credits = after;
+
+      prizeText.push(
+        `**${index + 1}º** <@${r.userId}> — ${r.points} pts → 💰 ${before} → ${after} (+${prize})`
+      );
+    });
+
+    // =======================================
+    // 💾 Guardar
+    // =======================================
+    fs.writeFileSync(scoresPath, JSON.stringify(scores, null, 2));
+    fs.writeFileSync(managersPath, JSON.stringify(managers, null, 2));
+
+    // =======================================
+    // 📣 EMBED
+    // =======================================
     const embed = new EmbedBuilder()
       .setColor(0x00ff44)
       .setTitle(`📊 Fantasy ${league} — Semana ${week}`)
-      .setDescription("Puntos semanales calculados correctamente, con desglose por jugador.")
-      .addFields({ name: "Managers procesados", value: `${processed}`, inline: true });
+      .setDescription("Puntos calculados, deltas registrados y créditos repartidos.")
+      .addFields(
+        { name: "Managers procesados", value: `${processed}`, inline: true },
+        { name: "🏆 Clasificación y créditos", value: prizeText.join("\n") || "Sin datos" }
+      );
 
     return interaction.reply({ embeds: [embed] });
   }

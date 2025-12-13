@@ -6,13 +6,19 @@ const {
 const fs = require("fs");
 const path = require("path");
 
-// Detectar liga según canal
+// =======================================
+// 🎯 Detectar liga
+// =======================================
 function getLeagueFromChannel(channelName) {
-  if (channelName.toLowerCase().includes("fantasy-dmg-a")) return "DominguerosA";
-  if (channelName.toLowerCase().includes("fantasy-dmg-b")) return "DominguerosB";
+  const n = channelName.toLowerCase();
+  if (n.includes("fantasy-dmg-a")) return "DominguerosA";
+  if (n.includes("fantasy-dmg-b")) return "DominguerosB";
   return null;
 }
 
+// =======================================
+// 📂 Rutas por liga
+// =======================================
 function loadLeagueFiles(league) {
   const base = path.join(__dirname, "..", "data", "fantasy", league);
   return {
@@ -24,7 +30,7 @@ function loadLeagueFiles(league) {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("subirmercado")
-    .setDescription("Sube 10 jugadores libres al mercado aleatoriamente (Solo Admin)")
+    .setDescription("Sube 10 jugadores libres al mercado (Admin)")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
   async execute(interaction) {
@@ -37,39 +43,81 @@ module.exports = {
       });
     }
 
-    // ⚠️ OJO: aquí corregimos tu error en la ruta del global
-    const globalPlayersPath = path.join(__dirname, "..", "data", "fantasy", "players.json");
+    const globalPlayersPath = path.join(
+      __dirname,
+      "..",
+      "data",
+      "fantasy",
+      "players.json"
+    );
+
     const { leaguePlayersPath, marketPath } = loadLeagueFiles(league);
 
     const globalPlayers = JSON.parse(fs.readFileSync(globalPlayersPath));
     const leaguePlayers = JSON.parse(fs.readFileSync(leaguePlayersPath));
     const market = JSON.parse(fs.readFileSync(marketPath));
 
+    market.playersOnAuction ??= [];
+    market.bids ??= {};
+    market.week ??= 1;
+
+    // =======================================
+    // 🧍‍♂️ Jugadores libres
+    // =======================================
     const libres = Object.values(globalPlayers).filter(p =>
       !leaguePlayers[p.playerName] || !leaguePlayers[p.playerName].owner
     );
 
     if (libres.length === 0) {
-      return interaction.reply("📭 No quedan jugadores libres disponibles en esta liga.");
+      return interaction.reply("📭 No quedan jugadores libres disponibles.");
     }
 
-    // Elegir hasta 10 aleatorios
-    const aleatorios = libres
+    const seleccionados = [];
+
+    // =======================================
+    // ⭐ BLACK ASTA — SOLO B + SEMANA 1
+    // =======================================
+    const forzarBlackAsta =
+      league === "DominguerosB" &&
+      market.week === 1;
+
+    if (forzarBlackAsta) {
+      const blackAsta = libres.find(p => p.playerName === "Black Asta");
+
+      if (
+        blackAsta &&
+        !market.playersOnAuction.includes("Black Asta")
+      ) {
+        seleccionados.push(blackAsta);
+      }
+    }
+
+    // =======================================
+    // 🎲 Resto aleatorios hasta 10
+    // =======================================
+    const restantes = libres
+      .filter(p => !seleccionados.some(s => s.playerName === p.playerName))
       .sort(() => Math.random() - 0.5)
-      .slice(0, Math.min(10, libres.length));
+      .slice(0, 10 - seleccionados.length);
 
-    if (!market.playersOnAuction) market.playersOnAuction = [];
-    if (!market.bids) market.bids = {};
+    seleccionados.push(...restantes);
 
-    for (const p of aleatorios) {
-      market.playersOnAuction.push(p.playerName);
-      market.bids[p.playerName] = [];
+    // =======================================
+    // 🛒 Añadir al mercado
+    // =======================================
+    for (const p of seleccionados) {
+      if (!market.playersOnAuction.includes(p.playerName)) {
+        market.playersOnAuction.push(p.playerName);
+        market.bids[p.playerName] = [];
+      }
     }
 
     fs.writeFileSync(marketPath, JSON.stringify(market, null, 2));
 
-    // 🆕 Mostrar con equipo y división
-    const listado = aleatorios
+    // =======================================
+    // 📣 EMBED
+    // =======================================
+    const listado = seleccionados
       .map(p => `• **${p.playerName}** — ${p.team} (Div ${p.division})`)
       .join("\n");
 
@@ -77,8 +125,13 @@ module.exports = {
       .setColor(0xffd000)
       .setTitle(`🛒 Mercado Semanal — ${league}`)
       .setDescription(listado)
-      .setFooter({ text: "A pujar en privado 😎" });
+      .setFooter({
+        text:
+          league === "DominguerosB" && market.week === 1
+            ? "Semana 1 en Liga B: Black Asta ha sido liberado 😈"
+            : "A pujar en privado 😎"
+      });
 
-    interaction.reply({ embeds: [embed] });
+    return interaction.reply({ embeds: [embed] });
   }
 };

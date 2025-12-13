@@ -5,7 +5,9 @@ const {
 const fs = require("fs");
 const path = require("path");
 
-// Detecta la liga según el canal
+// =======================================
+// 🎯 Detectar liga
+// =======================================
 function getLeagueFromChannel(channelName) {
   const name = channelName.toLowerCase();
   if (name.includes("fantasy-dmg-a")) return "DominguerosA";
@@ -16,7 +18,7 @@ function getLeagueFromChannel(channelName) {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("historial")
-    .setDescription("📈 Muestra la evolución del valor de un jugador en tu liga")
+    .setDescription("📈 Muestra puntos, valor y trades de un jugador")
     .addStringOption(opt =>
       opt.setName("jugador")
         .setDescription("Selecciona un jugador")
@@ -29,90 +31,118 @@ module.exports = {
 
     if (!league) {
       return interaction.reply({
-        content: "🚫 Este comando solo puede usarse en canales Fantasy (#fantasy-dmg-a / #fantasy-dmg-b).",
+        content: "🚫 Este comando solo puede usarse en canales Fantasy.",
         ephemeral: true
       });
     }
 
-    const userInput = interaction.options.getString("jugador");
+    const name = interaction.options.getString("jugador");
 
-    const playersPath = path.join(__dirname, "..", "data", "fantasy", league, "players.json");
+    const playersPath = path.join(
+      __dirname,
+      "..",
+      "data",
+      "fantasy",
+      league,
+      "players.json"
+    );
+
     if (!fs.existsSync(playersPath)) {
       return interaction.reply({
-        content: "⚠️ No hay datos de jugadores en esta liga todavía.",
+        content: "⚠️ No hay datos de jugadores en esta liga.",
         ephemeral: true
       });
     }
 
     const players = JSON.parse(fs.readFileSync(playersPath));
-    const player = players[userInput];
+    const player = players[name];
 
     if (!player) {
       return interaction.reply({
-        content: `❌ El jugador **${userInput}** no existe en esta liga.`,
+        content: `❌ El jugador **${name}** no existe en esta liga.`,
         ephemeral: true
       });
     }
 
-    if (!player.valueHistory || player.valueHistory.length === 0) {
-      return interaction.reply({
-        content: `ℹ️ **${player.playerName}** aún no tiene historial de valor.`,
-        ephemeral: true
-      });
-    }
+    // =======================================
+    // 📊 HISTORIAL DE PUNTOS
+    // =======================================
+    let puntosTexto = "Sin datos";
+    let tendencia = "😐 Estable";
 
-    const history = [...player.valueHistory].sort((a, b) => a.week - b.week);
-    let lines = [];
-    let tendenciaTexto = "Sin cambios";
-    let frasePersonaje = "";
-    let lastDelta = 0;
+    if (Array.isArray(player.history) && player.history.length > 0) {
+      const ordenado = [...player.history].sort((a, b) => a.week - b.week);
 
-    for (let i = 0; i < history.length; i++) {
-      const h = history[i];
-      const week = h.week;
-      const value = h.value;
+      puntosTexto = ordenado
+        .map((h, i) => {
+          if (i === 0) return `S${h.week} → ${h.totalPoints}`;
+          const prev = ordenado[i - 1].totalPoints;
+          const diff = h.totalPoints - prev;
 
-      if (i === 0) {
-        lines.push(`S${week} — ${value}`);
-      } else {
-        const prev = history[i - 1];
-        const delta = value - prev.value;
-        lastDelta = delta;
+          let icon = "➡️";
+          if (diff > 0) icon = "📈";
+          if (diff < 0) icon = "📉";
 
-        let icon = "➡️";
-        let deltaText = "";
-        if (delta > 0) { icon = "📈"; deltaText = `(+${delta})`; }
-        if (delta < 0) { icon = "📉"; deltaText = `(${delta})`; }
+          return `S${h.week} → ${h.totalPoints} ${icon} (${diff >= 0 ? "+" : ""}${diff})`;
+        })
+        .join("\n");
 
-        lines.push(`S${week} — ${value} ${icon} ${deltaText}`);
+      if (ordenado.length >= 2) {
+        const last = ordenado.at(-1).totalPoints;
+        const prev = ordenado.at(-2).totalPoints;
+        if (last > prev) tendencia = "📈 En racha";
+        else if (last < prev) tendencia = "📉 En caída";
       }
     }
 
-    if (lastDelta > 0)
-      frasePersonaje = `😏 “Subidita rica… ¡aprovéchame ahora!”`;
-    else if (lastDelta < 0)
-      frasePersonaje = `💔 “Volveré a brillar…”`;
-    else
-      frasePersonaje = `😐 “Estoy estable… de momento.”`;
+    // =======================================
+    // 🔁 HISTORIAL DE TRADES
+    // =======================================
+    let tradesTexto = "—";
 
+    if (Array.isArray(player.transferHistory) && player.transferHistory.length > 0) {
+      tradesTexto = player.transferHistory
+        .map(t => {
+          const fecha = new Date(t.date).toLocaleDateString("es-ES");
+          return `• ${fecha} — ${t.type.toUpperCase()} (<@${t.from}> ➜ <@${t.to}>)`;
+        })
+        .join("\n");
+    }
+
+    // =======================================
+    // 📣 EMBED
+    // =======================================
     const embed = new EmbedBuilder()
       .setColor(0x0099ff)
-      .setTitle(`📈 Evolución del valor — ${player.playerName}`)
-      .setDescription(lines.join("\n"))
-      .addFields({ name: "Liga", value: league })
-      .addFields({ name: "📊 Tendencia", value: tendenciaTexto })
-      .addFields({ name: "💬 Comentario del jugador", value: frasePersonaje })
-      .setFooter({ text: "Fantasy Domingueros — Mercado en movimiento" });
+      .setTitle(`📊 Historial — ${player.playerName}`)
+      .addFields(
+        { name: "🏁 Equipo", value: player.team || "—", inline: true },
+        { name: "👤 Owner", value: player.owner ? `<@${player.owner}>` : "Libre", inline: true },
+        { name: "💰 Valor / Cláusula", value: `${player.value} / ${player.clause}`, inline: true },
+        { name: "📊 Puntos por semana", value: puntosTexto },
+        { name: "🔁 Trades", value: tradesTexto },
+        { name: "📈 Tendencia", value: tendencia }
+      )
+      .setFooter({ text: `Liga ${league}` });
 
-    return interaction.reply({ embeds: [embed], ephemeral: false });
+    return interaction.reply({ embeds: [embed] });
   },
 
-  // AUTOCOMPLETADO 🔍
+  // =======================================
+  // 🔍 AUTOCOMPLETE
+  // =======================================
   async autocomplete(interaction) {
     const league = getLeagueFromChannel(interaction.channel.name);
     if (!league) return interaction.respond([]);
 
-    const playersPath = path.join(__dirname, "..", "data", "fantasy", league, "players.json");
+    const playersPath = path.join(
+      __dirname,
+      "..",
+      "data",
+      "fantasy",
+      league,
+      "players.json"
+    );
     if (!fs.existsSync(playersPath)) return interaction.respond([]);
 
     const players = JSON.parse(fs.readFileSync(playersPath));
