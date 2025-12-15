@@ -13,7 +13,8 @@ function loadLeagueFiles(league) {
   return {
     managersPath: path.join(base, "managers.json"),
     playersPath:  path.join(base, "players.json"),
-    lineupsPath:  path.join(base, "lineups.json")
+    lineupsPath:  path.join(base, "lineups.json"),
+    marketPath:   path.join(base, "market.json")
   };
 }
 
@@ -29,69 +30,72 @@ module.exports = {
 
     if (!league) {
       return interaction.reply({
-        content: "❌ Debes usar este comando en un canal de fantasy válido (#fantasy-dmg-a / #fantasy-dmg-b)",
+        content: "❌ Usa este comando en un canal de fantasy válido.",
         ephemeral: true
       });
     }
 
     const globalPlayersPath = path.join(__dirname, "..", "data", "fantasy", "players.json");
-    const { managersPath, playersPath, lineupsPath } = loadLeagueFiles(league);
+    const { managersPath, playersPath, lineupsPath, marketPath } = loadLeagueFiles(league);
 
     const globalPlayers = JSON.parse(fs.readFileSync(globalPlayersPath));
     const managers = JSON.parse(fs.readFileSync(managersPath));
     const leaguePlayers = JSON.parse(fs.readFileSync(playersPath));
     const lineups = JSON.parse(fs.readFileSync(lineupsPath));
 
+    const market = fs.existsSync(marketPath)
+      ? JSON.parse(fs.readFileSync(marketPath))
+      : { playersOnAuction: [] };
+
+    // 🔒 Blindaje estructura
+    if (!lineups.lineups) lineups.lineups = {};
+    if (!lineups.currentWeek) lineups.currentWeek = 1;
+
     if (managers[userId]) {
       return interaction.reply({
-        content: `⚠️ Ya estás inscrito en **${managers[userId].league}**`,
+        content: "⚠️ Ya estás inscrito en esta liga.",
         ephemeral: true
       });
     }
 
-    // --- Jugadores libres en esta liga ---
-    const freePlayers = Object.values(globalPlayers).filter(gp => {
-      const lp = leaguePlayers[gp.playerName];
-      return !lp || !lp.owner; // si no está en liga o está libre, vale
+    // 🔎 Jugadores libres y NO en mercado
+    const freePlayers = Object.values(globalPlayers).filter(p => {
+      const lp = leaguePlayers[p.playerName];
+      const inMarket = market.playersOnAuction?.includes(p.playerName);
+      return (!lp || !lp.owner) && !inMarket;
     });
 
     if (freePlayers.length < 6) {
       return interaction.reply({
-        content: "⚠️ No hay suficientes jugadores libres para asignarte el equipo inicial.",
+        content: "⚠️ No hay suficientes jugadores libres fuera del mercado.",
         ephemeral: true
       });
     }
 
-    // --- Asignar 6 jugadores aleatorios ---
+    // 🎲 Asignar 6 jugadores
     const starters = [];
+
     for (let i = 0; i < 6; i++) {
-      const randIndex = Math.floor(Math.random() * freePlayers.length);
-      const globalPlayer = freePlayers.splice(randIndex, 1)[0];
+      const idx = Math.floor(Math.random() * freePlayers.length);
+      const gp = freePlayers.splice(idx, 1)[0];
+      const name = gp.playerName;
 
-      const name = globalPlayer.playerName;
-
-      // si el jugador no existe en la liga -> clonarlo desde el global
-      if (!leaguePlayers[name]) {
-        leaguePlayers[name] = {
-          playerName: name,
-          team: globalPlayer.team,
-          totalPoints: globalPlayer.totalPoints,
-          average: globalPlayer.average,
-          history: globalPlayer.history,
-          owner: userId,
-          status: "drafted",
-          value: globalPlayer.value ?? 120,
-          clause: globalPlayer.clause ?? (globalPlayer.value ?? 120) * 2
-        };
-      } else {
-        leaguePlayers[name].owner = userId;
-        leaguePlayers[name].status = "drafted";
-      }
+      leaguePlayers[name] = {
+        playerName: name,
+        team: gp.team,
+        totalPoints: gp.totalPoints,
+        average: gp.average,
+        history: gp.history,
+        owner: userId,
+        status: "drafted",
+        value: gp.value ?? 120,
+        clause: gp.clause ?? (gp.value ?? 120) * 2
+      };
 
       starters.push(name);
     }
 
-    // --- Crear manager en la liga ---
+    // 👤 Manager
     managers[userId] = {
       username,
       credits: 200,
@@ -99,31 +103,26 @@ module.exports = {
       league
     };
 
-    // --- Crear alineación inicial ---
-    lineups[userId] = {
-      week: 1,
+    // 🧾 Lineup BIEN guardado
+    lineups.lineups[userId] = {
+      week: lineups.currentWeek,
       starters,
       bench: []
     };
 
-    // --- Guardar todo ---
+    // 💾 Guardar
     fs.writeFileSync(managersPath, JSON.stringify(managers, null, 2));
     fs.writeFileSync(playersPath, JSON.stringify(leaguePlayers, null, 2));
     fs.writeFileSync(lineupsPath, JSON.stringify(lineups, null, 2));
 
-    // --- Respuesta ---
+    // 📣 Respuesta
     const embed = new EmbedBuilder()
       .setColor(0x00ff99)
       .setTitle("🏁 ¡Bienvenido al Fantasy Domingueros!")
-      .setDescription(`Has sido inscrito en **${league}**`)
+      .setDescription(`Inscrito correctamente en **${league}**`)
       .addFields({
-        name: "🏎️ Tu Equipo Inicial",
-        value: starters
-          .map(p => {
-            const gp = globalPlayers[p];
-            return `• **${p}** — ${gp.team} (Div ${gp.division})`;
-          })
-          .join("\n")
+        name: "🏎️ Tu equipo inicial",
+        value: starters.join("\n")
       })
       .addFields({
         name: "💰 Créditos",
@@ -131,7 +130,6 @@ module.exports = {
         inline: true
       })
       .setFooter({ text: `Liga: ${league}` });
-
 
     return interaction.reply({ embeds: [embed] });
   }

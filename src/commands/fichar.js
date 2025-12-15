@@ -2,7 +2,9 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const fs = require("fs");
 const path = require("path");
 
-// Detectar liga según canal
+// ============================
+// 🔍 Detectar liga
+// ============================
 function getLeagueFromChannel(name) {
   const n = name.toLowerCase();
   if (n.includes("fantasy-dmg-a")) return "DominguerosA";
@@ -10,14 +12,30 @@ function getLeagueFromChannel(name) {
   return null;
 }
 
+// ============================
+// 📁 Rutas
+// ============================
 function loadLeagueFiles(league) {
   const base = path.join(__dirname, "..", "data", "fantasy", league);
   return {
     managersPath: path.join(base, "managers.json"),
-    playersPath: path.join(base, "players.json"),
-    lineupsPath: path.join(base, "lineups.json"),
-    marketPath: path.join(base, "market.json")
+    playersPath:  path.join(base, "players.json"),
+    lineupsPath:  path.join(base, "lineups.json"),
+    marketPath:   path.join(base, "market.json")
   };
+}
+
+// ============================
+// 🧹 LIMPIEZA GLOBAL DE LINEUPS
+// ============================
+function removePlayerFromAllLineups(playerName, lineups) {
+  if (!lineups.lineups) return;
+
+  for (const uid of Object.keys(lineups.lineups)) {
+    const l = lineups.lineups[uid];
+    l.starters = (l.starters || []).filter(p => p !== playerName);
+    l.bench    = (l.bench || []).filter(p => p !== playerName);
+  }
 }
 
 module.exports = {
@@ -26,7 +44,7 @@ module.exports = {
     .setDescription("💥 Pagar cláusula y fichar jugador inmediatamente")
     .addStringOption(opt =>
       opt.setName("jugador")
-        .setDescription("Jugador a robar 😈")
+        .setDescription("Jugador a fichar 😈")
         .setRequired(true)
         .setAutocomplete(true)
     ),
@@ -38,126 +56,134 @@ module.exports = {
 
     const { managersPath, playersPath, lineupsPath, marketPath } = loadLeagueFiles(league);
 
-    const players = JSON.parse(fs.readFileSync(playersPath));
     const managers = JSON.parse(fs.readFileSync(managersPath));
-    const lineups = fs.existsSync(lineupsPath) ? JSON.parse(fs.readFileSync(lineupsPath)) : { lineups: {} };
-    const market = JSON.parse(fs.readFileSync(marketPath));
+    const players  = JSON.parse(fs.readFileSync(playersPath));
+    const lineups  = fs.existsSync(lineupsPath)
+      ? JSON.parse(fs.readFileSync(lineupsPath))
+      : { lineups: {} };
+    const market   = JSON.parse(fs.readFileSync(marketPath));
 
     const buyerId = interaction.user.id;
+    const buyer   = managers[buyerId];
     const playerName = interaction.options.getString("jugador");
-    const buyer = managers[buyerId];
     const player = players[playerName];
 
-    if (!buyer) return interaction.reply({ content: "❌ No estás inscrito en Fantasy", ephemeral: true });
-    if (!player) return interaction.reply({ content: `❌ El jugador **${playerName}** no existe`, ephemeral: true });
+    if (!buyer)
+      return interaction.reply({ content: "❌ No estás inscrito en esta liga", ephemeral: true });
 
-    // Normalizar valores numéricos
-    player.value = Number(player.value ?? 120);
-    player.clause = Number(player.clause ?? player.value * 2);
+    if (!player)
+      return interaction.reply({ content: "❌ Ese jugador no existe", ephemeral: true });
 
     const sellerId = player.owner;
     if (!sellerId)
-      return interaction.reply({ content: "❌ Jugador libre. Debes pujar", ephemeral: true });
+      return interaction.reply({ content: "❌ Jugador libre, usa el mercado", ephemeral: true });
 
     if (sellerId === buyerId)
-      return interaction.reply({ content: "🤡 Ya es tuyo", ephemeral: true });
+      return interaction.reply({ content: "🤡 Ese jugador ya es tuyo", ephemeral: true });
 
     const seller = managers[sellerId];
+
+    // Normalizar valores
+    buyer.credits  = Number(buyer.credits);
     seller.credits = Number(seller.credits);
-    buyer.credits = Number(buyer.credits);
-
-    const currentWeek = market.week ?? 1;
-
-    if (seller.clauseLossWeek === currentWeek)
-      return interaction.reply({ content: "🛑 Ese equipo ya ha sufrido un clausulazo esta semana", ephemeral: true });
+    player.value   = Number(player.value ?? 120);
+    player.clause  = Number(player.clause ?? player.value * 2);
 
     const clause = player.clause;
+    const currentWeek = market.week ?? 1;
 
     if (buyer.credits < clause)
-      return interaction.reply({ content: `❌ Te faltan **${clause - buyer.credits}** créditos`, ephemeral: true });
+      return interaction.reply({
+        content: `❌ Te faltan **${clause - buyer.credits}** créditos`,
+        ephemeral: true
+      });
 
     if (buyer.team.length >= 10)
-      return interaction.reply({ content: "❌ Plantilla llena (10/10)", ephemeral: true });
+      return interaction.reply({ content: "❌ Tu plantilla está llena (10)", ephemeral: true });
 
-    // Transferencia económica
-    buyer.credits -= clause;
+    if (seller.clauseLossWeek === currentWeek)
+      return interaction.reply({
+        content: "🛑 Ese equipo ya ha sufrido un clausulazo esta semana",
+        ephemeral: true
+      });
+
+    // ============================
+    // 💰 TRANSFERENCIA ECONÓMICA
+    // ============================
+    buyer.credits  -= clause;
     seller.credits += clause;
 
-    // Transferencia deportiva
-    buyer.team.push(playerName);
+    // ============================
+    // 🧹 LIMPIAR LINEUPS (CLAVE)
+    // ============================
+    removePlayerFromAllLineups(playerName, lineups);
+
+    // ============================
+    // 🔄 TRANSFERENCIA DE JUGADOR
+    // ============================
     seller.team = seller.team.filter(p => p !== playerName);
+    buyer.team.push(playerName);
     player.owner = buyerId;
 
     // Subida de valor
-    player.value = Math.round(player.value * 1.05);
+    player.value  = Math.round(player.value * 1.05);
     player.clause = player.value * 2;
 
-    // Registrar clausulazo
+    // Clausulazo registrado
     seller.clauseLoss = (seller.clauseLoss ?? 0) + 1;
     seller.clauseLossWeek = currentWeek;
 
-    // Banquillo automático
-    if (!lineups.lineups) lineups.lineups = {};
-    if (!lineups.lineups[buyerId])
+    // ============================
+    // 🪑 BANQUILLO AUTOMÁTICO
+    // ============================
+    if (!lineups.lineups[buyerId]) {
       lineups.lineups[buyerId] = { week: currentWeek, starters: [], bench: [] };
+    }
 
-    if (!lineups.lineups[buyerId].bench.includes(playerName))
-      lineups.lineups[buyerId].bench.push(playerName);
+    lineups.lineups[buyerId].bench.push(playerName);
 
-    // Guardar datos
+    // ============================
+    // 💾 GUARDAR TODO
+    // ============================
     fs.writeFileSync(playersPath, JSON.stringify(players, null, 2));
     fs.writeFileSync(managersPath, JSON.stringify(managers, null, 2));
     fs.writeFileSync(lineupsPath, JSON.stringify(lineups, null, 2));
 
-    // 🚨 **NOTIFICAR AL VICTIMARIO POR DM**
-    try {
-      const sellerUser = await interaction.client.users.fetch(sellerId);
-      await sellerUser.send({
-        content:
-          `🚨 **Te han hecho un clausulazo en ${league}**\n\n` +
-          `• 👤 Jugador robado: **${playerName}**\n` +
-          `• 🪓 Robado por: **${interaction.user.username}**\n` +
-          `• 💰 Cláusula pagada: **${clause} créditos**\n` +
-          `• 📅 Semana: **${currentWeek}**`
-      });
-    } catch (e) {
-      // Si tiene DMs cerrados, no pasa nada
-    }
-
+    // ============================
+    // 📣 EMBED FINAL
+    // ============================
     const embed = new EmbedBuilder()
       .setColor(0xff4500)
-      .setTitle("🚨 ¡Clausulazo ejecutado!")
-      .setDescription(`**${playerName}** ahora es de **${interaction.user.username}**`)
+      .setTitle("🚨 ¡CLAUSULAZO!")
+      .setDescription(`**${playerName}** ahora juega para **${interaction.user.username}**`)
       .addFields(
-        { name: "💰 Cláusula", value: `${clause} créditos`, inline: true },
+        { name: "💰 Cláusula pagada", value: `${clause}`, inline: true },
         { name: "📈 Nuevo valor", value: `${player.value}`, inline: true },
         { name: "🔐 Nueva cláusula", value: `${player.clause}`, inline: true }
       )
-      .setFooter({ text: `Semana ${currentWeek}` });
+      .setFooter({ text: `Liga ${league} — Semana ${currentWeek}` });
 
     return interaction.reply({ embeds: [embed] });
   },
 
-  // Autocompletado
+  // ============================
+  // 🔍 AUTOCOMPLETE
+  // ============================
   async autocomplete(interaction) {
     const league = getLeagueFromChannel(interaction.channel.name);
     if (!league) return interaction.respond([]);
 
-    const { playersPath, managersPath } = loadLeagueFiles(league);
-
-    const focused = interaction.options.getFocused();
+    const { playersPath } = loadLeagueFiles(league);
     const players = JSON.parse(fs.readFileSync(playersPath));
-    const managers = JSON.parse(fs.readFileSync(managersPath));
+    const focused = interaction.options.getFocused().toLowerCase();
 
-    const choices = Object.values(players)
-      .filter(p => p.owner && managers[p.owner]?.league === league)
-      .map(p => p.playerName);
-
-    const filtered = choices
-      .filter(n => n.toLowerCase().includes(focused.toLowerCase()))
+    const results = Object.values(players)
+      .filter(p => p.owner)
+      .map(p => p.playerName)
+      .filter(n => n.toLowerCase().includes(focused))
       .slice(0, 25)
       .map(n => ({ name: n, value: n }));
 
-    await interaction.respond(filtered);
+    await interaction.respond(results);
   }
 };
