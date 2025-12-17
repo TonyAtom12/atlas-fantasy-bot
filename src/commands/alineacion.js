@@ -25,14 +25,12 @@ function loadLeagueFiles(league) {
   };
 }
 
-// 🚨 Corrige lineups.json si está corrupto (claves sueltas fuera de lineups.lineups)
+// 🛠 Repara lineups corruptos
 function sanitizeLineups(lineups) {
   if (!lineups.lineups) lineups.lineups = {};
-
   for (const key of Object.keys(lineups)) {
-    if (key === "lineups" || key === "currentWeek") continue;
+    if (["lineups", "currentWeek"].includes(key)) continue;
     if (/^\d+$/.test(key)) {
-      // mover la clave corrupta dentro de lineups.lineups
       lineups.lineups[key] = lineups[key];
       delete lineups[key];
     }
@@ -63,50 +61,37 @@ module.exports = {
       ? JSON.parse(fs.readFileSync(marketPath))
       : { week: 1 };
 
-    let lineups;
-    if (fs.existsSync(lineupsPath)) {
-      lineups = JSON.parse(fs.readFileSync(lineupsPath));
-    } else {
-      lineups = { currentWeek: market.week ?? 1, lineups: {} };
-    }
+    let lineups = fs.existsSync(lineupsPath)
+      ? JSON.parse(fs.readFileSync(lineupsPath))
+      : { currentWeek: market.week ?? 1, lineups: {} };
 
-    // 🛠️ Reparar estructuras corruptas
     sanitizeLineups(lineups);
 
-    if (!lineups.lineups) lineups.lineups = {};
-    if (!lineups.currentWeek) lineups.currentWeek = market.week ?? 1;
-
-    const manager = managers[userId];
-    if (!manager) {
+    if (!managers[userId]) {
       return interaction.reply({
         content: "❌ No estás inscrito en esta liga. Usa `/joinfantasy`.",
         ephemeral: true
       });
     }
 
-    const team = manager.team || [];
-
-    const maxTitulares = 6;
+    const team = managers[userId].team || [];
     const currentWeek = market.week ?? lineups.currentWeek ?? 1;
 
-    const existing = lineups.lineups[userId] || null;
+    const existing = lineups.lineups[userId];
     const alreadyForThisWeek =
       existing && existing.week === currentWeek ? existing.starters : [];
 
-    const options = team.map(name => {
-      const p = players[name];
-      return {
-        label: name.substring(0, 100),
-        description: `Media: ${p?.average ?? "N/A"}`,
-        value: name
-      };
-    });
+    const options = team.map(name => ({
+      label: name.substring(0, 100),
+      description: `Media: ${players[name]?.average ?? "N/A"}`,
+      value: name
+    }));
 
     const selectMenu = new StringSelectMenuBuilder()
       .setCustomId(`alineacion_select_${userId}`)
       .setPlaceholder("Selecciona tus titulares")
       .setMinValues(1)
-      .setMaxValues(Math.min(maxTitulares, team.length))
+      .setMaxValues(Math.min(6, team.length))
       .addOptions(options);
 
     const row = new ActionRowBuilder().addComponents(selectMenu);
@@ -121,7 +106,7 @@ module.exports = {
       )
       .setFooter({ text: `Liga: ${league}` });
 
-    const reply = await interaction.reply({
+    await interaction.reply({
       embeds: [embed],
       components: [row],
       ephemeral: true
@@ -129,6 +114,7 @@ module.exports = {
 
     const message = await interaction.fetchReply();
 
+    // 🟡 Collector con deferUpdate para evitar Unknown Interaction
     const collector = message.createMessageComponentCollector({
       componentType: ComponentType.StringSelect,
       time: 5 * 60 * 1000,
@@ -141,8 +127,10 @@ module.exports = {
       const selected = selectInteraction.values;
       const bench = team.filter(p => !selected.includes(p));
 
-      lineups.currentWeek = currentWeek;
+      // Evita Unknown Interaction (10062)
+      await selectInteraction.deferUpdate();
 
+      lineups.currentWeek = currentWeek;
       lineups.lineups[userId] = {
         week: currentWeek,
         starters: selected,
@@ -161,7 +149,7 @@ module.exports = {
         )
         .setFooter({ text: `Liga: ${league}` });
 
-      await selectInteraction.update({
+      await interaction.editReply({
         embeds: [confirmEmbed],
         components: []
       });
